@@ -1,1 +1,1 @@
-# go-query-kit
+# go-sql-kit

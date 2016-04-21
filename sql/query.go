@@ -16,10 +16,10 @@ func NewSQLQuery() *SQLQuery {
 }
 
 func (s *SQLQuery) AllowCommon() *SQLQuery {
-	s.Allow(QueryKey1_and, QueryKey1_or,
-		QueryKey2_eq, QueryKey2_ne,
-		QueryKey2_lt, QueryKey2_lte,
-		QueryKey2_gt, QueryKey2_gte,
+	s.Allow(QueryKeyAnd, QueryKeyOr,
+		QueryKeyEq, QueryKeyNe,
+		QueryKeyLt, QueryKeyLte,
+		QueryKeyGt, QueryKeyGte,
 	)
 	return s
 }
@@ -64,11 +64,11 @@ func (s *SQLQuery) elemString(elem *QueryElem) string {
 		return strings.Join(set, " AND ")
 	} else {
 		switch elem.Key {
-		case QueryKey1_and:
+		case QueryKeyAnd:
 			return strings.Join(set, " AND ")
-		case QueryKey1_or:
+		case QueryKeyOr:
 			return fmt.Sprintf("(%v)", strings.Join(set, " OR "))
-		case QueryKey1_in:
+		case QueryKeyIn:
 			return ""
 		}
 	}
@@ -81,19 +81,19 @@ func (s *SQLQuery) valueString(v *QueryValue) string {
 	} else {
 		opera := ""
 		switch v.Key {
-		case QueryKey2_eq:
+		case QueryKeyEq:
 			opera = "="
-		case QueryKey2_ne:
+		case QueryKeyNe:
 			opera = "<>"
-		case QueryKey2_lt:
+		case QueryKeyLt:
 			opera = "<"
-		case QueryKey2_lte:
+		case QueryKeyLte:
 			opera = "<="
-		case QueryKey2_gt:
+		case QueryKeyGt:
 			opera = ">"
-		case QueryKey2_gte:
+		case QueryKeyGte:
 			opera = ">="
-		case QueryKey2_like:
+		case QueryKeyLike:
 			return fmt.Sprintf("%v LIKE '%%%v%'", s.GetMapping(v.Field), v.Value)
 		}
 		switch v.Value.(type) {

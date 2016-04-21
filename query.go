@@ -1,38 +1,38 @@
 package gosql
 
 const (
-	QueryKey1_and string = "%and"
-	QueryKey1_or         = "%or"
-	QueryKey1_in         = "%in" // TODO: 暂时不支持
+	QueryKeyAnd string = "%and"
+	QueryKeyOr         = "%or"
+	QueryKeyIn         = "%in" // TODO: 暂时不支持
 )
 
 func IsQueryKey1(str string) bool {
 	switch str {
-	case QueryKey1_and, QueryKey1_or, QueryKey1_in:
+	case QueryKeyAnd, QueryKeyOr, QueryKeyIn:
 		return true
 	}
 	return false
 }
 
 const (
-	QueryKey2_eq   string = "%eq"   // 等于
-	QueryKey2_ne          = "%ne"   // 不等于
-	QueryKey2_lt          = "%lt"   // 小于
-	QueryKey2_lte         = "%lte"  // 小于等于
-	QueryKey2_gt          = "%gt"   // 大于
-	QueryKey2_gte         = "%gte"  // 大于等于
-	QueryKey2_like        = "%like" // 模糊搜索
+	QueryKeyEq   string = "%eq"   // 等于
+	QueryKeyNe          = "%ne"   // 不等于
+	QueryKeyLt          = "%lt"   // 小于
+	QueryKeyLte         = "%lte"  // 小于等于
+	QueryKeyGt          = "%gt"   // 大于
+	QueryKeyGte         = "%gte"  // 大于等于
+	QueryKeyLike        = "%like" // 模糊搜索
 )
 
 func IsQueryKey2(str string) bool {
 	switch str {
-	case QueryKey2_eq, QueryKey2_ne:
+	case QueryKeyEq, QueryKeyNe:
 		return true
-	case QueryKey2_lt, QueryKey2_lte:
+	case QueryKeyLt, QueryKeyLte:
 		return true
-	case QueryKey2_gt, QueryKey2_gte:
+	case QueryKeyGt, QueryKeyGte:
 		return true
-	case QueryKey2_like:
+	case QueryKeyLike:
 		return true
 	}
 	return false
@@ -53,7 +53,7 @@ func (q *QueryRoot) IsAnonymous() bool {
 }
 
 func (q *QueryRoot) QueryKey() string {
-	return QueryKey1_and
+	return QueryKeyAnd
 }
 
 func (q *QueryRoot) QueryValue() []IQuery {

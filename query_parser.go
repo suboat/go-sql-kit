@@ -1,6 +1,17 @@
 package gosql
 
-import "strings"
+import (
+	"encoding/json"
+	"strings"
+)
+
+func (o *QueryRoot) ParseJSONString(str string) error {
+	var m map[string]interface{}
+	if err := json.Unmarshal([]byte(str), m); err != nil {
+		return err
+	}
+	return o.Parse(m)
+}
 
 func (q *QueryRoot) Parse(m map[string]interface{}) error {
 	if m == nil || len(m) == 0 {

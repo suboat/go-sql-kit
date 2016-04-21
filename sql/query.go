@@ -67,6 +67,9 @@ func (s *SQLQuery) elemString(elem *QueryElem) string {
 		case QueryKeyAnd:
 			return strings.Join(set, " AND ")
 		case QueryKeyOr:
+			if len(set) == 1 {
+				return set[0]
+			}
 			return fmt.Sprintf("(%v)", strings.Join(set, " OR "))
 		case QueryKeyIn:
 			return ""
@@ -94,7 +97,7 @@ func (s *SQLQuery) valueString(v *QueryValue) string {
 		case QueryKeyGte:
 			opera = ">="
 		case QueryKeyLike:
-			return fmt.Sprintf("%v LIKE '%%%v%'", s.GetMapping(v.Field), v.Value)
+			return fmt.Sprintf("%v LIKE '%%%v%%'", s.GetMapping(v.Field), v.Value)
 		}
 		switch v.Value.(type) {
 		case int:

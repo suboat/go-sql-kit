@@ -43,7 +43,7 @@ func (r *RuleMapping) IsAllowed(key string) bool {
 	} else if allow, ok := r.rule().allowKey[key]; ok {
 		return allow
 	}
-	return true
+	return false
 }
 
 func (r *RuleMapping) SetMapping(value, mapping string) IRuleMapping {

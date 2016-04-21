@@ -41,5 +41,5 @@ func (o *OrderValue) IsDESC() bool {
 }
 
 func (o *OrderValue) String() string {
-	return ""
+	return o.Field
 }

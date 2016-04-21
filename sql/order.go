@@ -1,24 +1,51 @@
 package gosql
 
-import . "github.com/suboat/go-sql-kit"
+import (
+	. "github.com/suboat/go-sql-kit"
+	"strings"
+)
 
-func OrderStringJSONtoSQL(str string) (string, error) {
-	return "", nil
-}
-
-type SQLOrderRoot struct {
+type SQLOrder struct {
+	RuleMapping
 	OrderRoot
 }
 
-func (o *SQLOrderRoot) String() (statement string) {
-	if o.Value == nil || len(o.Value) == 0 {
-		return
+func NewSQLOrder() *SQLOrder {
+	return new(SQLOrder)
+}
+
+func (s *SQLOrder) String() string {
+	if s.Value == nil || len(s.Value) == 0 {
+		return ""
 	}
-	for _, iv := range o.Value {
-		if v, ok := iv.(OrderValue); ok {
-			v.Field
+	set := make([]string, 0, len(s.Value))
+	for _, iv := range s.Value {
+		if v, ok := iv.(*OrderValue); ok {
+			if s.IsAllowed(v.Field) {
+				if v.IsASC() {
+					set = append(set, s.GetMapping(v.Field)+" ASC")
+				} else {
+					set = append(set, s.GetMapping(v.Field)+" DESC")
+				}
+			}
 		}
 	}
+	if len(set) == 0 {
+		return ""
+	}
+	return "ORDER BY " + strings.Join(set, ", ")
+}
 
-	return ""
+func (s *SQLOrder) JSONStringToSQL(str string) (string, error) {
+	if err := s.ParseJSONString(str); err != nil {
+		return "", err
+	}
+	return s.String(), nil
+}
+
+func (s *SQLOrder) JSONStringsToSQL(strs []string) (string, error) {
+	if err := s.ParseJSONStrings(strs); err != nil {
+		return "", err
+	}
+	return s.String(), nil
 }

@@ -7,10 +7,10 @@ func (o *OrderRoot) ParseJSONString(str string) error {
 	if err := json.Unmarshal([]byte(str), strs); err != nil {
 		return err
 	}
-	return o.ParseJSONStrings(strs)
+	return o.Parse(strs)
 }
 
-func (o *OrderRoot) ParseJSONStrings(strs []string) error {
+func (o *OrderRoot) Parse(strs []string) error {
 	if len(strs) == 0 {
 		o.Value = []IOrder{}
 		return nil

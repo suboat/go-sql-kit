@@ -44,7 +44,7 @@ func (s *SQLOrder) JSONStringToSQL(str string) (string, error) {
 }
 
 func (s *SQLOrder) JSONStringsToSQL(strs []string) (string, error) {
-	if err := s.ParseJSONStrings(strs); err != nil {
+	if err := s.Parse(strs); err != nil {
 		return "", err
 	}
 	return s.String(), nil

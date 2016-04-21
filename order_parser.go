@@ -2,16 +2,21 @@ package gosql
 
 import "encoding/json"
 
-func (o *OrderRoot) ParseJSON(str string) error {
-	var set []string
-	if err := json.Unmarshal([]byte(str), set); err != nil {
+func (o *OrderRoot) ParseJSONString(str string) error {
+	var strs []string
+	if err := json.Unmarshal([]byte(str), strs); err != nil {
 		return err
-	} else if len(set) == 0 {
+	}
+	return o.ParseJSONStrings(strs)
+}
+
+func (o *OrderRoot) ParseJSONStrings(strs []string) error {
+	if len(strs) == 0 {
 		o.Value = []IOrder{}
 		return nil
 	}
-	o.Value = make([]IOrder, 0, len(set))
-	for _, s := range set {
+	o.Value = make([]IOrder, 0, len(strs))
+	for _, s := range strs {
 		if len(s) == 0 {
 			continue
 		}
@@ -28,7 +33,7 @@ func (o *OrderRoot) ParseJSON(str string) error {
 			v.Field = s
 		}
 		if len(v.Field) != 0 {
-			o.Value = append(o.Value, v)
+			o.Value = append(o.Value, &v)
 		}
 	}
 	return nil

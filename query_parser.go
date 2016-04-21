@@ -1,5 +1,7 @@
 package gosql
 
+import "strings"
+
 func (q *QueryRoot) Parse(m map[string]interface{}) error {
 	if m == nil || len(m) == 0 {
 		return nil
@@ -7,13 +9,11 @@ func (q *QueryRoot) Parse(m map[string]interface{}) error {
 	q.Value = make([]IQuery, 0, len(m))
 	for k, v := range m {
 		if v == nil {
-			continue
 		} else if IsQueryKey1(k) || IsQueryKey2(k) {
 			elem := &QueryElem{anonymous: IsQueryKey2(k), Key: k}
-			if err := elem.Parse(v); err != nil {
-				continue
+			if err := elem.Parse(v); err == nil {
+				q.Value = append(q.Value, elem)
 			}
-			q.Value = append(q.Value, elem)
 		}
 	}
 	return nil
@@ -28,19 +28,16 @@ func (q *QueryElem) Parse(obj interface{}) error {
 		q.Value = make([]IQuery, 0, len(m))
 		for k, v := range m {
 			if v == nil {
-				continue
 			} else if IsQueryKey1(k) || IsQueryKey2(k) {
 				elem := &QueryElem{anonymous: IsQueryKey2(k), Key: k}
-				if err := elem.Parse(v); err != nil {
-					continue
+				if err := elem.Parse(v); err == nil {
+					q.Value = append(q.Value, elem)
 				}
-				q.Value = append(q.Value, elem)
 			} else {
 				value := &QueryValue{Key: q.Key, Field: k}
-				if err := value.Parse(v); err != nil {
-					continue
+				if err := value.Parse(v); err == nil {
+					q.Value = append(q.Value, value)
 				}
-				q.Value = append(q.Value, value)
 			}
 		}
 	}
@@ -53,10 +50,13 @@ func (q *QueryValue) Parse(obj interface{}) error {
 	}
 	switch v := obj.(type) {
 	case int, int8, int16, int32, int64:
-		q.Value = v
+		q.Value = int(v)
 	case float32, float64:
-		q.Value = v
+		q.Value = float64(v)
 	case string:
+		if strings.HasPrefix(v, "%") {
+			return ErrTypeString
+		}
 		q.Value = v
 	default:
 		return ErrTypeString

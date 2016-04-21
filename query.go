@@ -21,7 +21,7 @@ const (
 	QueryKey2_lte         = "%lte"  // 小于等于
 	QueryKey2_gt          = "%gt"   // 大于
 	QueryKey2_gte         = "%gte"  // 大于等于
-	QueryKey2_like        = "%like" // 模糊搜索 // TODO: 暂时不支持
+	QueryKey2_like        = "%like" // 模糊搜索
 )
 
 func IsQueryKey2(str string) bool {

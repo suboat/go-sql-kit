@@ -2,10 +2,8 @@ package gosql
 
 import "testing"
 
-// {"%and": [{"%and": [{"%eq": [{"1":"11", "2":"22"}]}, {"%ne": [{"3":"33", "4":"44"}]}]}]}
-
 func TestSQLQuery_Example1(t *testing.T) {
-	example := map[string]interface{}{
+	example := map[string]interface{}{ // 定义Example
 		"%eq": map[string]interface{}{
 			"t1": "111",
 			"t2": 222,
@@ -15,9 +13,9 @@ func TestSQLQuery_Example1(t *testing.T) {
 			"t4": "444",
 		},
 	}
-	order := NewSQLQuery()
-	order.Allow("t1", "t3")
-	result, err := order.SQLString(example)
+	order := NewSQLQuery()                  // 初始化
+	order.Allow("t1", "t3")                 // 设置关键字过滤规则
+	result, err := order.SQLString(example) // 生成SQL语句
 	if err != nil {
 		t.Fatal(err)
 	}

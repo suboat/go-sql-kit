@@ -1,55 +1,51 @@
 package gosql
 
 type RuleMapping struct {
-	allowKey   map[string]bool
-	keyMapping map[string]string
+	allowKey map[string]bool
+	mappings map[string]string
+}
+
+func (r *RuleMapping) rule() *RuleMapping {
+	if r.allowKey == nil {
+		r.allowKey = make(map[string]bool)
+	}
+	if r.mappings == nil {
+		r.mappings = make(map[string]string)
+	}
+	return r
 }
 
 func (r *RuleMapping) Allow(key string) {
-	if len(key) == 0 {
-		return
-	} else if r.allowKey == nil {
-		r.allowKey = make(map[string]bool)
+	if len(key) != 0 {
+		r.rule().allowKey[key] = true
 	}
-	r.allowKey[key] = true
 }
 
 func (r *RuleMapping) Disallow(key string) {
-	if len(key) == 0 {
-		return
-	} else if r.allowKey == nil {
-		r.allowKey = make(map[string]bool)
+	if len(key) != 0 {
+		r.rule().allowKey[key] = false
 	}
-	r.allowKey[key] = false
 }
 
 func (r *RuleMapping) IsAllowed(key string) bool {
 	if len(key) == 0 {
 		return false
-	} else if r.allowKey == nil {
-		return true
-	} else if allow, ok := r.allowKey[key]; ok {
+	} else if allow, ok := r.rule().allowKey[key]; ok {
 		return allow
 	}
 	return true
 }
 
-func (r *RuleMapping) SetMapping(key, mapping string) {
-	if len(key) == 0 {
-		return
-	} else if r.keyMapping == nil {
-		r.keyMapping = make(map[string]string)
+func (r *RuleMapping) SetMapping(value, mapping string) {
+	if len(value) != 0 {
+		r.rule().mappings[value] = mapping
 	}
-	r.keyMapping[key] = mapping
 }
 
-func (r *RuleMapping) GetMapping(key string) string {
-	if len(key) == 0 {
-		return key
-	} else if r.keyMapping == nil {
-		return key
-	} else if mapping, ok := r.keyMapping[key]; ok {
+func (r *RuleMapping) GetMapping(value string) string {
+	if len(value) == 0 {
+	} else if mapping, ok := r.rule().mappings[value]; ok {
 		return mapping
 	}
-	return key
+	return value
 }

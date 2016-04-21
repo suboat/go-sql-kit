@@ -37,7 +37,7 @@ func (s *SQLQuery) String() string {
 		}
 	}
 	if len(set) != 0 {
-		return strings.Join(set, " AND ")
+		return "WHERE " + strings.Join(set, " AND ")
 	}
 	return ""
 }
@@ -47,7 +47,7 @@ func (s *SQLQuery) elemString(elem *QueryElem) string {
 		return ""
 	}
 	set := make([]string, 0, len(elem.Value))
-	for _, iv := range s.Value {
+	for _, iv := range elem.Value {
 		if v, ok := iv.(*QueryElem); ok {
 			if str := s.elemString(v); len(str) != 0 {
 				set = append(set, str)
@@ -67,7 +67,7 @@ func (s *SQLQuery) elemString(elem *QueryElem) string {
 		case QueryKey1_and:
 			return strings.Join(set, " AND ")
 		case QueryKey1_or:
-			return strings.Join(set, " OR ")
+			return fmt.Sprintf("(%v)", strings.Join(set, " OR "))
 		case QueryKey1_in:
 			return ""
 		}

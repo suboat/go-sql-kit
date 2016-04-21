@@ -50,6 +50,8 @@ func (q *QueryElem) Parse(obj interface{}) error {
 func (q *QueryValue) Parse(obj interface{}) error {
 	if obj == nil {
 		return ErrTypeString
+	} else if strings.HasPrefix(q.Field, "%") {
+		return ErrTypeString
 	}
 	switch v := obj.(type) {
 	case int:
@@ -61,9 +63,6 @@ func (q *QueryValue) Parse(obj interface{}) error {
 	case float64:
 		q.Value = v
 	case string:
-		if strings.HasPrefix(v, "%") {
-			return ErrTypeString
-		}
 		q.Value = v
 	default:
 		return ErrTypeString

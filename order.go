@@ -8,7 +8,6 @@ const (
 type IOrder interface {
 	IsASC() bool
 	IsDESC() bool
-	String() string
 }
 
 type OrderRoot struct {
@@ -23,10 +22,6 @@ func (o *OrderRoot) IsDESC() bool {
 	return false
 }
 
-func (o *OrderRoot) String() string {
-	return ""
-}
-
 type OrderValue struct {
 	ASC   bool
 	Field string
@@ -38,8 +33,4 @@ func (o *OrderValue) IsASC() bool {
 
 func (o *OrderValue) IsDESC() bool {
 	return !o.ASC
-}
-
-func (o *OrderValue) String() string {
-	return o.Field
 }

@@ -29,9 +29,11 @@ func (q *QueryElem) Parse(obj interface{}) error {
 		for k, v := range m {
 			if v == nil {
 			} else if IsQueryKey1(k) || IsQueryKey2(k) {
-				elem := &QueryElem{anonymous: IsQueryKey2(k), Key: k}
-				if err := elem.Parse(v); err == nil {
-					q.Value = append(q.Value, elem)
+				if !q.IsAnonymous() {
+					elem := &QueryElem{anonymous: IsQueryKey2(k), Key: k}
+					if err := elem.Parse(v); err == nil {
+						q.Value = append(q.Value, elem)
+					}
 				}
 			} else {
 				value := &QueryValue{Key: q.Key, Field: k}

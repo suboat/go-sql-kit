@@ -41,6 +41,9 @@ func (q *QueryElem) Parse(obj interface{}) error {
 			}
 		}
 	}
+	if q.Value == nil || len(q.Value) == 0 {
+		return ErrTypeMap
+	}
 	return nil
 }
 
@@ -49,10 +52,14 @@ func (q *QueryValue) Parse(obj interface{}) error {
 		return ErrTypeString
 	}
 	switch v := obj.(type) {
-	case int, int8, int16, int32, int64:
-		q.Value = int(v)
-	case float32, float64:
-		q.Value = float64(v)
+	case int:
+		q.Value = v
+	case int64:
+		q.Value = v
+	case float32:
+		q.Value = v
+	case float64:
+		q.Value = v
 	case string:
 		if strings.HasPrefix(v, "%") {
 			return ErrTypeString

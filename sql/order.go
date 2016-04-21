@@ -36,14 +36,14 @@ func (s *SQLOrder) String() string {
 	return "ORDER BY " + strings.Join(set, ", ")
 }
 
-func (s *SQLOrder) JSONStringToSQL(str string) (string, error) {
+func (s *SQLOrder) JSONtoSQLString(str string) (string, error) {
 	if err := s.ParseJSONString(str); err != nil {
 		return "", err
 	}
 	return s.String(), nil
 }
 
-func (s *SQLOrder) JSONStringsToSQL(strs []string) (string, error) {
+func (s *SQLOrder) SQLString(strs []string) (string, error) {
 	if err := s.Parse(strs); err != nil {
 		return "", err
 	}

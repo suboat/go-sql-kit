@@ -36,7 +36,7 @@ func TestSQLQuery_Example2(t *testing.T) {
 		},
 	}
 	order := NewSQLQuery()
-	order.Allow("t1", "t2", "t3")
+	order.Allow("t1", "t2", "t3").SetMapping("t1", "ttt111").SetMapping("t2", "ttt222")
 	result, err := order.SQLString(example)
 	if err != nil {
 		t.Fatal(err)

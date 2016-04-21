@@ -109,6 +109,13 @@ func (s *SQLQuery) valueString(v *QueryValue) string {
 	return ""
 }
 
+func (s *SQLQuery) JSONtoSQLString(str string) (string, error) {
+	if err := s.ParseJSONString(str); err != nil {
+		return "", err
+	}
+	return s.String(), nil
+}
+
 func (s *SQLQuery) SQLString(m map[string]interface{}) (string, error) {
 	if err := s.Parse(m); err != nil {
 		return "", err

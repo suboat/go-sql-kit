@@ -11,7 +11,7 @@ func (o *OrderRoot) ParseJSONString(str string) error {
 }
 
 func (o *OrderRoot) Parse(strs []string) error {
-	if len(strs) == 0 {
+	if strs == nil || len(strs) == 0 {
 		o.Value = []IOrder{}
 		return nil
 	}

@@ -48,12 +48,18 @@ func (q *QueryElem) Parse(obj interface{}) error {
 }
 
 func (q *QueryValue) Parse(obj interface{}) error {
-	if v, ok := obj.(string); !ok {
+	if obj == nil {
 		return ErrTypeString
-	} else if len(v) == 0 {
-		return ErrTypeString
-	} else {
+	}
+	switch v := obj.(type) {
+	case int, int8, int16, int32, int64:
 		q.Value = v
+	case float32, float64:
+		q.Value = v
+	case string:
+		q.Value = v
+	default:
+		return ErrTypeString
 	}
 	return nil
 }

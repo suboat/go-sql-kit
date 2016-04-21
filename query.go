@@ -3,7 +3,7 @@ package gosql
 const (
 	QueryKey1_and string = "%and"
 	QueryKey1_or         = "%or"
-	QueryKey1_in         = "%in"
+	QueryKey1_in         = "%in" // TODO: 暂时不支持
 )
 
 func IsQueryKey1(str string) bool {
@@ -21,7 +21,7 @@ const (
 	QueryKey2_lte         = "%lte"  // 小于等于
 	QueryKey2_gt          = "%gt"   // 大于
 	QueryKey2_gte         = "%gte"  // 大于等于
-	QueryKey2_like        = "%like" // 模糊搜索
+	QueryKey2_like        = "%like" // 模糊搜索 // TODO: 暂时不支持
 )
 
 func IsQueryKey2(str string) bool {
@@ -81,7 +81,7 @@ func (q *QueryElem) QueryValue() []IQuery {
 type QueryValue struct {
 	Key   string
 	Field string
-	Value string
+	Value interface{}
 }
 
 func (q *QueryValue) IsAnonymous() bool {

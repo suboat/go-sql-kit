@@ -22,10 +22,10 @@ func (o *OrderRoot) Parse(strs []string) error {
 		}
 		var v OrderValue
 		switch s[:1] {
-		case OrderKey_asc:
+		case OrderKeyASC:
 			v.ASC = true
 			v.Field = s[1:]
-		case OrderKey_desc:
+		case OrderKeyDESC:
 			v.ASC = false
 			v.Field = s[1:]
 		default:

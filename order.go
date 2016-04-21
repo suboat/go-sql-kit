@@ -1,8 +1,8 @@
 package gosql
 
 const (
-	OrderKeyASC  string = "+"
-	OrderKeyDESC        = "-"
+	OrderKeyASC  string = "+" // 正序
+	OrderKeyDESC        = "-" // 反序
 )
 
 type IOrder interface {

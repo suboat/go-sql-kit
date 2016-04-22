@@ -37,11 +37,11 @@ func (s *SQLQuery) SetValueFormat(f ValueStringFunc) *SQLQuery {
 }
 
 func (s *SQLQuery) String() string {
-	if s.Value == nil || len(s.Value) == 0 {
+	if s.Values == nil || len(s.Values) == 0 {
 		return ""
 	}
-	set := make([]string, 0, len(s.Value))
-	for _, iv := range s.Value {
+	set := make([]string, 0, len(s.Values))
+	for _, iv := range s.Values {
 		if v, ok := iv.(*QueryElem); ok {
 			if str := s.elemString(v); len(str) != 0 {
 				set = append(set, str)
@@ -58,8 +58,8 @@ func (s *SQLQuery) elemString(elem *QueryElem) string {
 	if !s.IsAllowed(elem.Key) {
 		return ""
 	}
-	set := make([]string, 0, len(elem.Value))
-	for _, iv := range elem.Value {
+	set := make([]string, 0, len(elem.Values))
+	for _, iv := range elem.Values {
 		if v, ok := iv.(*QueryElem); ok {
 			if str := s.elemString(v); len(str) != 0 {
 				set = append(set, str)

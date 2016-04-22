@@ -39,9 +39,7 @@ OrderKeyDESC        = "-" // 反序
 ```golang
 QueryKeyAnd string = "%and" // 与
 QueryKeyOr         = "%or"  // 或
-```
 
-```golang
 QueryKeyEq      string = "%eq"   // 等于
 QueryKeyNe             = "%ne"   // 不等于
 QueryKeyLt             = "%lt"   // 小于

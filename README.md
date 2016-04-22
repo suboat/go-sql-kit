@@ -14,7 +14,7 @@
 
 * 当前规则均基于JSON格式
 
-### Order
+### Order (`./order.go`)
 
 #### 关键字
 
@@ -23,15 +23,39 @@ OrderKeyASC  string = "+" // 正序
 OrderKeyDESC        = "-" // 反序
 ```
 
+#### 实例说明
 
-#### 说明
+JSON实例：[{"key1", "+key2", "+key3", "-key4", "-key5"}]
 
-* JSON实例：[{"key1", "+key2", "+key3", "-key4", "-key5"}]
 * 正序：例如对字段"key1"正向排序，可写为"+key1"，也可以"key1"
 * 反序：例如对字段"key4"反向排序，需写为"-key4"
 
-### Query
+### Query (`./query.go`)
 
-### Rule
+#### 关键字
+
+```golang
+QueryKeyAnd string = "%and" // 与
+QueryKeyOr         = "%or"  // 或
+```
+
+```golang
+QueryKeyEq      string = "%eq"   // 等于
+QueryKeyNe             = "%ne"   // 不等于
+QueryKeyLt             = "%lt"   // 小于
+QueryKeyLte            = "%lte"  // 小于等于
+QueryKeyGt             = "%gt"   // 大于
+QueryKeyGte            = "%gte"  // 大于等于
+QueryKeyLike           = "%like" // 模糊搜索
+QueryKeyIn             = "%in"   // TODO: 暂时不支持
+QueryKeyBetween        = "%bt"   // TODO: 暂时不支持
+```
+
+#### 实例说明
+
+JSON实例：{"%and": [{"%eq": [{"key1": "A12", "key2": "B23"}], [{"%ne": [{"key3": "C34", "key4": "D45"}]}]}
+条件描述： (key1 == "A12" && key2 == "B23") && (key3 != "C34" && key4 != "D45")
+
+### Rule (`./rule.go`)
 
 ## TODO

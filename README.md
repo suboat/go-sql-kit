@@ -10,6 +10,12 @@
 * JSON格式
 * TODO: 提供快速便捷方案，对接开发前端(JS)模块，实现上述**筛选**/**排序**/**分页**功能
 
+## Usage
+
+```
+go get -u github.com/suboat/go-sql-kit
+```
+
 ## Documents
 
 当前规则均基于JSON格式

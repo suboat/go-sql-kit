@@ -6,23 +6,33 @@ import (
 	"strings"
 )
 
+type ValueStringFunc func(*QueryValue) string
+
 type SQLQuery struct {
-	SQLQueryRule
+	RuleMapping
 	QueryRoot
+	valueStringFunc ValueStringFunc
 }
 
 func NewSQLQuery() *SQLQuery {
-	s := new(SQLQuery).AllowCommon()
-	s.SetValueFormat(s.ValueFormat)
-	return s
+	return new(SQLQuery).AllowCommonKey().SetValueFormat(nil)
 }
 
-func (s *SQLQuery) AllowCommon() *SQLQuery {
+func (s *SQLQuery) AllowCommonKey() *SQLQuery {
 	s.Allow(QueryKeyAnd, QueryKeyOr,
 		QueryKeyEq, QueryKeyNe,
 		QueryKeyLt, QueryKeyLte,
 		QueryKeyGt, QueryKeyGte,
 	)
+	return s
+}
+
+func (s *SQLQuery) SetValueFormat(f ValueStringFunc) *SQLQuery {
+	if f != nil {
+		s.valueStringFunc = f
+	} else {
+		s.valueStringFunc = s.ValueString
+	}
 	return s
 }
 
@@ -79,12 +89,19 @@ func (s *SQLQuery) elemString(elem *QueryElem) string {
 }
 
 func (s *SQLQuery) valueString(v *QueryValue) string {
-	return s.ValueString(v)
+	if v == nil {
+	} else if !s.IsAllowed(v.Field) {
+	} else {
+		v.Field = s.GetMapping(v.Field)
+		return s.valueStringFunc(v)
+	}
+	return ""
+
 }
 
-func (s *SQLQuery) ValueFormat(key string, field string, value interface{}) string {
+func (s *SQLQuery) ValueString(v *QueryValue) string {
 	opera := ""
-	switch key {
+	switch v.Key {
 	case QueryKeyEq:
 		opera = "="
 	case QueryKeyNe:
@@ -98,13 +115,15 @@ func (s *SQLQuery) ValueFormat(key string, field string, value interface{}) stri
 	case QueryKeyGte:
 		opera = ">="
 	case QueryKeyLike:
-		return fmt.Sprintf("%v LIKE '%%%v%%'", field, value)
-	}
-	switch value.(type) {
-	case int, int8, int16, int32, int64, float32, float64:
-		return fmt.Sprintf("%v%v%v", field, opera, value)
+		return fmt.Sprintf("%v LIKE '%%%v%%'", v.Field, v.Value)
 	default:
-		return fmt.Sprintf("%v%v'%v'", field, opera, value)
+		return ""
+	}
+	switch v.Value.(type) {
+	case int, int8, int16, int32, int64, float32, float64:
+		return fmt.Sprintf("%v%v%v", v.Field, opera, v.Value)
+	default:
+		return fmt.Sprintf("%v%v'%v'", v.Field, opera, v.Value)
 	}
 }
 

@@ -18,13 +18,13 @@ func NewSQLXQuery(size ...int) *SQLXQuery {
 		cnt = size[0]
 	}
 	s := &SQLXQuery{SQLQuery: *NewSQLQuery(), index: 1, values: make([]interface{}, 0, cnt)}
-	s.SetValueFormat(s.ValueFormat)
+	s.SetValueFormat(s.ValueString)
 	return s
 }
 
-func (s *SQLXQuery) ValueFormat(key string, field string, value interface{}) string {
+func (s *SQLXQuery) ValueString(v *QueryValue) string {
 	opera := ""
-	switch key {
+	switch v.Key {
 	case QueryKeyEq:
 		opera = "="
 	case QueryKeyNe:
@@ -38,13 +38,15 @@ func (s *SQLXQuery) ValueFormat(key string, field string, value interface{}) str
 	case QueryKeyGte:
 		opera = ">="
 	case QueryKeyLike:
-		return fmt.Sprintf("%v LIKE '%%%v%%'", field, value)
+		return fmt.Sprintf("%v LIKE '%%%v%%'", v.Field, v.Value)
+	default:
+		return ""
 	}
 	defer func() {
 		s.index++
-		s.values = append(s.values, value)
+		s.values = append(s.values, v.Value)
 	}()
-	return fmt.Sprintf("%v%v$%v", field, opera, s.index)
+	return fmt.Sprintf("%v%v$%v", v.Field, opera, s.index)
 }
 
 func (s *SQLXQuery) JSONtoSQLString(str string) (string, []interface{}, error) {

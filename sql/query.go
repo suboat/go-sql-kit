@@ -7,13 +7,13 @@ import (
 )
 
 type SQLQuery struct {
-	SQLRule
+	SQLQueryRule
 	QueryRoot
 }
 
 func NewSQLQuery() *SQLQuery {
 	s := new(SQLQuery).AllowCommon()
-	s.SetValueFormat(s.valueFormat)
+	s.SetValueFormat(s.ValueFormat)
 	return s
 }
 
@@ -78,7 +78,11 @@ func (s *SQLQuery) elemString(elem *QueryElem) string {
 	return ""
 }
 
-func (s *SQLQuery) valueFormat(key string, field string, value interface{}) string {
+func (s *SQLQuery) valueString(v *QueryValue) string {
+	return s.ValueString(v)
+}
+
+func (s *SQLQuery) ValueFormat(key string, field string, value interface{}) string {
 	opera := ""
 	switch key {
 	case QueryKeyEq:
@@ -102,10 +106,6 @@ func (s *SQLQuery) valueFormat(key string, field string, value interface{}) stri
 	default:
 		return fmt.Sprintf("%v%v'%v'", field, opera, value)
 	}
-}
-
-func (s *SQLQuery) valueString(v *QueryValue) string {
-	return s.ValueString(v)
 }
 
 func (s *SQLQuery) JSONtoSQLString(str string) (string, error) {

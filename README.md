@@ -1,6 +1,6 @@
 # go-sql-kit
 
-# v0.4
+# v0.6
 
 ## This project is still in development :)
 
@@ -12,11 +12,12 @@
 
 ## Documents
 
-* 当前规则均基于JSON格式
-* Query(**条件筛选(WHERE)**)
-* Order(**结果排序(ORDER BY)**)
-* Limit(**结果分页(LIMIT)**)
-* Rule
+当前规则均基于JSON格式
+
+1. Query(**条件筛选(WHERE)**)
+2. Order(**结果排序(ORDER BY)**)
+3. Limit(**结果分页(LIMIT)**)
+4. Rule
 
 ### 1. Query (`./query.go`)
 

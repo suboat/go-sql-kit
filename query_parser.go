@@ -7,7 +7,7 @@ import (
 
 func (o *QueryRoot) ParseJSONString(str string) error {
 	var m map[string]interface{}
-	if err := json.Unmarshal([]byte(str), m); err != nil {
+	if err := json.Unmarshal([]byte(str), &m); err != nil {
 		return err
 	}
 	return o.Parse(m)

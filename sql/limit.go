@@ -8,6 +8,8 @@ import (
 type SQLLimit struct {
 	RuleLimit
 	LimitRoot
+	limit int
+	skip  int
 }
 
 func NewSQLLimit() *SQLLimit {
@@ -25,16 +27,20 @@ func (s *SQLLimit) String() string {
 func (s *SQLLimit) valueString(v *LimitValue) string {
 	if v == nil {
 	} else if v.Limit = s.Limit(v.Limit); v.IsLimited() {
-		return s.ValueString(v)
+		s.limit = v.Limit
+		s.skip = v.Skip + v.Limit*v.Page
+		return s.ValueString()
 	}
 	return ""
 }
 
-func (s *SQLLimit) ValueString(v *LimitValue) string {
-	sql := fmt.Sprintf(`LIMIT %v`, v.Limit)
-	v.Skip = v.Skip + v.Limit*v.Page
-	if v.Skip > 0 {
-		sql += fmt.Sprintf(` OFFSET %v`, v.Skip)
+func (s *SQLLimit) ValueString() string {
+	if s.limit <= 0 {
+		return ""
+	}
+	sql := fmt.Sprintf(`LIMIT %v`, s.limit)
+	if s.skip > 0 {
+		sql += fmt.Sprintf(` OFFSET %v`, s.skip)
 	}
 	return sql
 }
@@ -51,4 +57,12 @@ func (s *SQLLimit) SQLString(str string) (string, error) {
 		return "", err
 	}
 	return s.String(), nil
+}
+
+func (s *SQLLimit) GetLimit() int {
+	return s.limit
+}
+
+func (s *SQLLimit) GetSkip() int {
+	return s.skip
 }

@@ -25,7 +25,7 @@ OrderKeyDESC        = "-" // 反序
 
 #### 实例说明
 
-* JSON实例：[{"key1", "+key2", "+key3", "-key4", "-key5"}]
+* JSON实例：["key1", "+key2", "+key3", "-key4", "-key5"]
 * 正序：例如对字段"key1"正向排序，可写为"+key1"，也可以"key1"
 * 反序：例如对字段"key4"反向排序，需写为"-key4"
 
@@ -52,9 +52,9 @@ QueryKeyBetween        = "%bt"   // TODO: 暂时不支持
 
 #### 实例说明
 
-* JSON实例：{"%and": [{"%eq": [{"key1": "A12", "key2": "B23"}], [{"%ne": [{"key3": "C34", "key4": "D45"}]}]}
+* JSON实例：{"%and":{"%eq":{"key1":"A12","key2":"B23"},"%ne":{"key3":"C34","key4":"D45"}}}
 * 条件描述： (key1 == "A12" && key2 == "B23") && (key3 != "C34" && key4 != "D45")
-* JSON实例：{"%or": [{"%lt": [{"key1": 12, "key2": 23}], [{"%gte": [{"key3": 34, "key4": 45}]}]}
+* JSON实例：{"%or":{"%lt":{"key1":12,"key2":23},"%gte":{"key3":34,"key4":45}}}
 * 条件描述： (key1 < 12 && key2 < 23) || (key3 >= 34 && key4 >= 45)
 
 ### Rule (`./rule.go`)

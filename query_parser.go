@@ -69,6 +69,12 @@ func (q *QueryValue) Parse(obj interface{}) error {
 	switch v := obj.(type) {
 	case int:
 		q.Value = v
+	case int8:
+		q.Value = v
+	case int16:
+		q.Value = v
+	case int32:
+		q.Value = v
 	case int64:
 		q.Value = v
 	case float32:

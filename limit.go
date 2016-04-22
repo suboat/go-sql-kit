@@ -1,15 +1,25 @@
 package gosql
 
 const (
-	LimitKey string = "%"
+	LimitKeyLimit string = "%l"
+	LimitKeySkip         = "%s"
+	LimitKeyPage         = "%p"
 )
+
+func IsLimitKey(str string) bool {
+	switch str {
+	case LimitKeyLimit, LimitKeySkip, LimitKeyPage:
+		return true
+	}
+	return false
+}
 
 type ILimit interface {
 	IsLimited() bool
 }
 
 type LimitRoot struct {
-	Value ILimit
+	Values []ILimit
 }
 
 func (l *LimitRoot) IsLimited() bool {
@@ -17,13 +27,20 @@ func (l *LimitRoot) IsLimited() bool {
 }
 
 type LimitValue struct {
-	Limit int
-	Skip  int
-	Page  int
+	Key   string
+	Value int
 }
 
 func (l *LimitValue) IsLimited() bool {
-	return l.Limit > 0 && (l.Skip+l.Limit*l.Page) >= 0
+	switch l.Key {
+	case LimitKeyLimit:
+		return l.Value > 0
+	case LimitKeySkip:
+		return true
+	case LimitKeyPage:
+		return l.Value >= 0
+	}
+	return false
 }
 
 type IRuleLimit interface {

@@ -71,8 +71,6 @@ func (s *SQLQuery) elemString(elem *QueryElem) string {
 				return set[0]
 			}
 			return fmt.Sprintf("(%v)", strings.Join(set, " OR "))
-		case QueryKeyIn:
-			return ""
 		}
 	}
 	return ""

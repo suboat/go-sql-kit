@@ -1,27 +1,28 @@
 package gosql
 
 const (
-	QueryKeyAnd string = "%and"
-	QueryKeyOr         = "%or"
-	QueryKeyIn         = "%in" // TODO: 暂时不支持
+	QueryKeyAnd string = "%and" // AND
+	QueryKeyOr         = "%or"  // OR
 )
 
 func IsQueryKey1(str string) bool {
 	switch str {
-	case QueryKeyAnd, QueryKeyOr, QueryKeyIn:
+	case QueryKeyAnd, QueryKeyOr:
 		return true
 	}
 	return false
 }
 
 const (
-	QueryKeyEq   string = "%eq"   // 等于
-	QueryKeyNe          = "%ne"   // 不等于
-	QueryKeyLt          = "%lt"   // 小于
-	QueryKeyLte         = "%lte"  // 小于等于
-	QueryKeyGt          = "%gt"   // 大于
-	QueryKeyGte         = "%gte"  // 大于等于
-	QueryKeyLike        = "%like" // 模糊搜索
+	QueryKeyEq      string = "%eq"   // 等于
+	QueryKeyNe             = "%ne"   // 不等于
+	QueryKeyLt             = "%lt"   // 小于
+	QueryKeyLte            = "%lte"  // 小于等于
+	QueryKeyGt             = "%gt"   // 大于
+	QueryKeyGte            = "%gte"  // 大于等于
+	QueryKeyLike           = "%like" // 模糊搜索
+	QueryKeyIn             = "%in"   // TODO: 暂时不支持
+	QueryKeyBetween        = "%bt"   // TODO: 暂时不支持
 )
 
 func IsQueryKey2(str string) bool {

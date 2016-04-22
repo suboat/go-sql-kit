@@ -9,7 +9,7 @@ type ILimit interface {
 }
 
 type LimitRoot struct {
-	Value []ILimit
+	Value ILimit
 }
 
 func (l *LimitRoot) IsLimited() bool {

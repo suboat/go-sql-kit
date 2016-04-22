@@ -13,4 +13,25 @@
 ## Document
 
 * 当前规则均基于JSON格式
-* 通过字符串支持排序
+
+### Order
+
+#### 关键字
+
+```golang
+OrderKeyASC  string = "+" // 正序
+OrderKeyDESC        = "-" // 反序
+```
+
+
+#### 说明
+
+* JSON实例：[{"key1", "+key2", "+key3", "-key4", "-key5"}]
+* 正序：例如对字段"key1"正向排序，可写为"+key1"，也可以"key1"
+* 反序：例如对字段"key4"反向排序，需写为"-key4"
+
+### Query
+
+### Rule
+
+## TODO

@@ -1,17 +1,9 @@
 package gosql
 
 const (
-	QueryKeyAnd string = "%and" // AND
-	QueryKeyOr         = "%or"  // OR
+	QueryKeyAnd string = "%and" // AND 与
+	QueryKeyOr         = "%or"  // OR  或
 )
-
-func IsQueryKey1(str string) bool {
-	switch str {
-	case QueryKeyAnd, QueryKeyOr:
-		return true
-	}
-	return false
-}
 
 const (
 	QueryKeyEq      string = "%eq"   // 等于
@@ -25,7 +17,15 @@ const (
 	QueryKeyBetween        = "%bt"   // TODO: 暂时不支持
 )
 
-func IsQueryKey2(str string) bool {
+func IsQueryKey(str string) bool {
+	switch str {
+	case QueryKeyAnd, QueryKeyOr:
+		return true
+	}
+	return IsQueryAnonymousKey(str)
+}
+
+func IsQueryAnonymousKey(str string) bool {
 	switch str {
 	case QueryKeyEq, QueryKeyNe:
 		return true
@@ -44,7 +44,7 @@ type IQuery interface {
 }
 
 type QueryRoot struct {
-	Value []IQuery
+	Values []IQuery
 }
 
 func (q *QueryRoot) IsAnonymous() bool {
@@ -54,7 +54,7 @@ func (q *QueryRoot) IsAnonymous() bool {
 type QueryElem struct {
 	anonymous bool
 	Key       string
-	Value     []IQuery
+	Values    []IQuery
 }
 
 func (q *QueryElem) IsAnonymous() bool {

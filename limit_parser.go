@@ -28,9 +28,17 @@ func (l *LimitRoot) Parse(m map[string]interface{}) error {
 }
 
 func (l *LimitValue) Parse(obj interface{}) error {
-	if i, ok := obj.(int); !ok {
-		return ErrTypeInt
-	} else if l.Value = i; !l.IsLimited() {
+	switch i := obj.(type) {
+	case float64:
+		l.Value = int(i)
+	case float32:
+		l.Value = int(i)
+	case int64:
+		l.Value = int(i)
+	case int:
+		l.Value = i
+	}
+	if !l.IsLimited() {
 		return ErrTypeValue
 	}
 	return nil

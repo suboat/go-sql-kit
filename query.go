@@ -41,8 +41,6 @@ func IsQueryKey2(str string) bool {
 
 type IQuery interface {
 	IsAnonymous() bool
-	QueryKey() string
-	QueryValue() []IQuery
 }
 
 type QueryRoot struct {
@@ -51,14 +49,6 @@ type QueryRoot struct {
 
 func (q *QueryRoot) IsAnonymous() bool {
 	return false
-}
-
-func (q *QueryRoot) QueryKey() string {
-	return QueryKeyAnd
-}
-
-func (q *QueryRoot) QueryValue() []IQuery {
-	return q.Value
 }
 
 type QueryElem struct {
@@ -71,14 +61,6 @@ func (q *QueryElem) IsAnonymous() bool {
 	return q.anonymous
 }
 
-func (q *QueryElem) QueryKey() string {
-	return q.Key
-}
-
-func (q *QueryElem) QueryValue() []IQuery {
-	return q.Value
-}
-
 type QueryValue struct {
 	Key   string
 	Field string
@@ -87,12 +69,4 @@ type QueryValue struct {
 
 func (q *QueryValue) IsAnonymous() bool {
 	return false
-}
-
-func (q *QueryValue) QueryKey() string {
-	return q.Key
-}
-
-func (q *QueryValue) QueryValue() []IQuery {
-	return nil
 }

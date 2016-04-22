@@ -2,6 +2,28 @@ package gosql
 
 import "testing"
 
+func TestSQLQuery_ExampleJSON1(t *testing.T) {
+	example := `{"%and":{"%eq":{"key1":"A12","key2":"B23"},"%ne":{"key3":"C34","key4":"D45"}}}`
+	order := NewSQLQuery()                     // 初始化
+	order.Allow("key1", "key3")                // 设置关键字过滤规则
+	sql, err := order.JSONtoSQLString(example) // 生成SQL语句
+	if err != nil {
+		t.Fatal(err)
+	}
+	t.Log(sql)
+}
+
+func TestSQLQuery_ExampleJSON2(t *testing.T) {
+	example := `{"%or":{"%lt":{"key1":12,"key2":23},"%gte":{"key3":34,"key4":45}}}`
+	order := NewSQLQuery()                     // 初始化
+	order.Allow("key1", "key3")                // 设置关键字过滤规则
+	sql, err := order.JSONtoSQLString(example) // 生成SQL语句
+	if err != nil {
+		t.Fatal(err)
+	}
+	t.Log(sql)
+}
+
 func TestSQLQuery_Example1(t *testing.T) {
 	example := map[string]interface{}{ // 定义Example
 		"%eq": map[string]interface{}{
@@ -13,13 +35,13 @@ func TestSQLQuery_Example1(t *testing.T) {
 			"t4": "444",
 		},
 	}
-	order := NewSQLQuery()                  // 初始化
-	order.Allow("t1", "t3")                 // 设置关键字过滤规则
-	result, err := order.SQLString(example) // 生成SQL语句
+	order := NewSQLQuery()               // 初始化
+	order.Allow("t1", "t3")              // 设置关键字过滤规则
+	sql, err := order.SQLString(example) // 生成SQL语句
 	if err != nil {
 		t.Fatal(err)
 	}
-	t.Log(result)
+	t.Log(sql)
 }
 
 func TestSQLQuery_Example2(t *testing.T) {
@@ -37,11 +59,11 @@ func TestSQLQuery_Example2(t *testing.T) {
 	}
 	order := NewSQLQuery()
 	order.Allow("t1", "t2", "t3").SetMapping("t1", "ttt111").SetMapping("t2", "ttt222")
-	result, err := order.SQLString(example)
+	sql, err := order.SQLString(example)
 	if err != nil {
 		t.Fatal(err)
 	}
-	t.Log(result)
+	t.Log(sql)
 }
 
 func TestSQLQuery_Example3(t *testing.T) {
@@ -69,11 +91,11 @@ func TestSQLQuery_Example3(t *testing.T) {
 	}
 	order := NewSQLQuery()
 	order.Allow("t1", "t2", "t3", "t12", "t13")
-	result, err := order.SQLString(example)
+	sql, err := order.SQLString(example)
 	if err != nil {
 		t.Fatal(err)
 	}
-	t.Log(result)
+	t.Log(sql)
 }
 
 func TestSQLQuery_Example4(t *testing.T) {
@@ -107,11 +129,11 @@ func TestSQLQuery_Example4(t *testing.T) {
 	}
 	order := NewSQLQuery()
 	order.Allow("t1", "t2", "t3", "t12", "t13", "t21", "t24").Allow("%like")
-	result, err := order.SQLString(example)
+	sql, err := order.SQLString(example)
 	if err != nil {
 		t.Fatal(err)
 	}
-	t.Log(result)
+	t.Log(sql)
 }
 
 func TestSQLQuery_ErrorExample1(t *testing.T) {
@@ -153,9 +175,9 @@ func TestSQLQuery_ErrorExample1(t *testing.T) {
 	}
 	order := NewSQLQuery()
 	order.Allow("t1", "t2", "t3", "t12", "t13").Allow("%like")
-	result, err := order.SQLString(example)
+	sql, err := order.SQLString(example)
 	if err != nil {
 		t.Fatal(err)
 	}
-	t.Log(result)
+	t.Log(sql)
 }

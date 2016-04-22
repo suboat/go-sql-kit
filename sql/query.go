@@ -7,12 +7,14 @@ import (
 )
 
 type SQLQuery struct {
-	RuleMapping
+	SQLRule
 	QueryRoot
 }
 
 func NewSQLQuery() *SQLQuery {
-	return new(SQLQuery).AllowCommon()
+	s := new(SQLQuery).AllowCommon()
+	s.SetValueFormat(s.valueFormat)
+	return s
 }
 
 func (s *SQLQuery) AllowCommon() *SQLQuery {
@@ -76,35 +78,34 @@ func (s *SQLQuery) elemString(elem *QueryElem) string {
 	return ""
 }
 
-func (s *SQLQuery) valueString(v *QueryValue) string {
-	if v == nil {
-	} else if !s.IsAllowed(v.Field) {
-	} else {
-		opera := ""
-		switch v.Key {
-		case QueryKeyEq:
-			opera = "="
-		case QueryKeyNe:
-			opera = "<>"
-		case QueryKeyLt:
-			opera = "<"
-		case QueryKeyLte:
-			opera = "<="
-		case QueryKeyGt:
-			opera = ">"
-		case QueryKeyGte:
-			opera = ">="
-		case QueryKeyLike:
-			return fmt.Sprintf("%v LIKE '%%%v%%'", s.GetMapping(v.Field), v.Value)
-		}
-		switch v.Value.(type) {
-		case int:
-			return fmt.Sprintf("%v%v%v", s.GetMapping(v.Field), opera, v.Value)
-		default:
-			return fmt.Sprintf("%v%v'%v'", s.GetMapping(v.Field), opera, v.Value)
-		}
+func (s *SQLQuery) valueFormat(key string, field string, value interface{}) string {
+	opera := ""
+	switch key {
+	case QueryKeyEq:
+		opera = "="
+	case QueryKeyNe:
+		opera = "<>"
+	case QueryKeyLt:
+		opera = "<"
+	case QueryKeyLte:
+		opera = "<="
+	case QueryKeyGt:
+		opera = ">"
+	case QueryKeyGte:
+		opera = ">="
+	case QueryKeyLike:
+		return fmt.Sprintf("%v LIKE '%%%v%%'", field, value)
 	}
-	return ""
+	switch value.(type) {
+	case int, int8, int16, int32, int64, float32, float64:
+		return fmt.Sprintf("%v%v%v", field, opera, value)
+	default:
+		return fmt.Sprintf("%v%v'%v'", field, opera, value)
+	}
+}
+
+func (s *SQLQuery) valueString(v *QueryValue) string {
+	return s.ValueString(v)
 }
 
 func (s *SQLQuery) JSONtoSQLString(str string) (string, error) {

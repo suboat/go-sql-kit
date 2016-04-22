@@ -1,6 +1,6 @@
 # go-sql-kit
 
-# v0.3
+# v0.4
 
 ## This project is still in development :)
 
@@ -8,7 +8,7 @@
 
 * 只需通过字符串(string)即可实现**结果排序(ORDER BY)**和**条件筛选(WHERE)**两大常用功能
 * JSON格式
-* 容易对接前段(JS)模块，实现上述**排序**和**筛选**功能
+* TODO: 提供快速便捷方案，对接开发前端(JS)模块，实现上述**排序**和**筛选**功能
 
 ## Documents
 

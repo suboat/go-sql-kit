@@ -6,33 +6,19 @@
 
 ## Overview
 
-* 只需通过字符串(string)即可实现**结果排序(ORDER BY)**和**条件筛选(WHERE)**两大常用功能
+* 只需通过字符串(string)即可实现**条件筛选(WHERE)**/**结果排序(ORDER BY)**/**结果分页(LIMIT)**等常用功能
 * JSON格式
-* TODO: 提供快速便捷方案，对接开发前端(JS)模块，实现上述**排序**和**筛选**功能
+* TODO: 提供快速便捷方案，对接开发前端(JS)模块，实现上述**筛选**/**排序**/**分页**功能
 
 ## Documents
 
 * 当前规则均基于JSON格式
-* Order(**结果排序(ORDER BY)**)
 * Query(**条件筛选(WHERE)**)
+* Order(**结果排序(ORDER BY)**)
+* Limit(**结果分页(LIMIT)**)
 * Rule
 
-### 1. Order (`./order.go`)
-
-#### 关键字
-
-```golang
-OrderKeyASC  string = "+" // 正序
-OrderKeyDESC        = "-" // 反序
-```
-
-#### 实例说明
-
-* JSON实例：["key1", "+key2", "+key3", "-key4", "-key5"]
-* 正序：例如对字段"key1"正向排序，可写为"+key1"，也可以"key1"
-* 反序：例如对字段"key4"反向排序，需写为"-key4"
-
-### 2. Query (`./query.go`)
+### 1. Query (`./query.go`)
 
 #### 关键字
 
@@ -54,12 +40,42 @@ QueryKeyBetween        = "%bt"   // TODO: 暂时不支持
 #### 实例说明
 
 * JSON实例：{"%and":{"%eq":{"key1":"A12"}}}
-* 条件描述： key1 == "A12"
+* 结果描述： key1 == "A12"
 * JSON实例：{"%and":{"%eq":{"key1":"A12","key2":"B23"},"%ne":{"key3":"C34","key4":"D45"}}}
-* 条件描述： (key1 == "A12" && key2 == "B23") && (key3 != "C34" && key4 != "D45")
+* 结果描述： (key1 == "A12" && key2 == "B23") && (key3 != "C34" && key4 != "D45")
 * JSON实例：{"%or":{"%lt":{"key1":12,"key2":23},"%gte":{"key3":34,"key4":45}}}
-* 条件描述： (key1 < 12 && key2 < 23) || (key3 >= 34 && key4 >= 45)
+* 结果描述： (key1 < 12 && key2 < 23) || (key3 >= 34 && key4 >= 45)
 
-### 3. Rule (`./rule.go`)
+### 2. Order (`./order.go`)
+
+#### 关键字
+
+```golang
+OrderKeyASC  string = "+" // 正序
+OrderKeyDESC        = "-" // 反序
+```
+
+#### 实例说明
+
+* JSON实例：["key1", "+key2", "+key3", "-key4", "-key5"]
+* 结果描述： 正序("key1", "key2", "key3")，反序("key4", "key5")
+* 正序：例如对字段"key1"正向排序，可写为"+key1"，也可以"key1"
+* 反序：例如对字段"key4"反向排序，需写为"-key4"
+
+### 3. Limit (`./limit.go`)
+
+#### 关键字
+
+```golang
+LimitKey string = "%" // 限制分隔符
+```
+
+#### 实例说明
+
+* JSON实例："5%3%2"
+* 结果描述1： 忽略最前面的13个值，返回最多5个值
+* 结果描述2： 忽略最前面的3个，并返回第3页的值，每页最多5个值
+
+### 4. Rule (`./rule.go`)
 
 ## TODO

@@ -77,6 +77,9 @@ OrderKeyDESC        = "-" // 反序
 LimitKey string = "%" // 限制分隔符
 ```
 
+* 用法描述: limit%skip%page
+* 允许缺省值，如: limit%skip, limit%skip%, limit%%page, %%page, %%
+
 #### 实例说明
 
 * JSON实例："5%3%2"

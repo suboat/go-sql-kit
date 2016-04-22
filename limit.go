@@ -43,10 +43,20 @@ func (l *LimitValue) IsLimited() bool {
 	return false
 }
 
+type LimitValueSet struct {
+	Limit int
+	Skip  int
+	Page  int
+}
+
+func (l *LimitValueSet) IsLimited() bool {
+	return l.Limit > 0 && (l.Skip+l.Limit*l.Page) >= 0
+}
+
 type IRuleLimit interface {
 	SetDefaultLimit(int) IRuleLimit
 	SetMaxLimit(int) IRuleLimit
-	Limit(int) int
+	GetLimit(int) int
 }
 
 type RuleLimit struct {
@@ -74,7 +84,7 @@ func (l *RuleLimit) SetMaxLimit(lmt int) IRuleLimit {
 	return l
 }
 
-func (l *RuleLimit) Limit(lmt int) int {
+func (l *RuleLimit) GetLimit(lmt int) int {
 	if lmt >= 1 {
 		if lmt > l.maxLimit {
 			return l.maxLimit

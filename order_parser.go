@@ -4,7 +4,7 @@ import "encoding/json"
 
 func (o *OrderRoot) ParseJSONString(str string) error {
 	var strs []string
-	if err := json.Unmarshal([]byte(str), strs); err != nil {
+	if err := json.Unmarshal([]byte(str), &strs); err != nil {
 		return err
 	}
 	return o.Parse(strs)

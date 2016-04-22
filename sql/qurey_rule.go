@@ -9,11 +9,8 @@ type SQLRule struct {
 	ValueFormat ValueFormatFunc
 }
 
-func (s *SQLRule) SetValueFormat(f ValueFormatFunc) *SQLRule {
-	if f != nil {
-		s.ValueFormat = f
-	}
-	return s
+func (s *SQLRule) SetValueFormat(f ValueFormatFunc) {
+	s.ValueFormat = f
 }
 
 func (s *SQLRule) ValueString(v *QueryValue) string {

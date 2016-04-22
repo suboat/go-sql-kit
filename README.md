@@ -6,9 +6,9 @@
 
 ## Overview
 
-* 只需通过字符串(string)即可实现**条件筛选(WHERE)**/**结果排序(ORDER BY)**/**结果分页(LIMIT)**等常用功能
 * JSON格式
-* TODO: 提供快速便捷方案，对接开发前端(JS)模块，实现上述**筛选**/**排序**/**分页**功能
+* 只需通过字符串(string)，即可实现**条件筛选(WHERE)**/**结果排序(ORDER BY)**/**结果分页(LIMIT)**等常用功能
+* 提供快速便捷方案，对接开发前端(JS)模块(Developing...)，实现上述**筛选**/**排序**/**分页**功能
 
 ## Usage
 
@@ -44,6 +44,8 @@ QueryKeyIn             = "%in"   // TODO: 暂时不支持
 QueryKeyBetween        = "%bt"   // TODO: 暂时不支持
 ```
 
+* 关键字"%and"和"%or"需继续包含关键字
+
 #### 实例说明
 
 * JSON实例：{"%and":{"%eq":{"key1":"A12"}}}
@@ -61,6 +63,8 @@ QueryKeyBetween        = "%bt"   // TODO: 暂时不支持
 OrderKeyASC  string = "+" // 正序
 OrderKeyDESC        = "-" // 反序
 ```
+
+* 正序缺省可以不加关键字
 
 #### 实例说明
 
@@ -89,3 +93,6 @@ LimitKey string = "%" // 限制分隔符
 ### 4. Rule (`./rule.go`)
 
 ## TODO
+
+* 开发前端(JS)模块
+* 不断完善文档说明

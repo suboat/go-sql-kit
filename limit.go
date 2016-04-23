@@ -43,13 +43,13 @@ func (l *LimitValue) IsLimited() bool {
 	return false
 }
 
-type LimitValueSet struct {
+type LimitValues struct {
 	Limit int
 	Skip  int
 	Page  int
 }
 
-func (l *LimitValueSet) IsLimited() bool {
+func (l *LimitValues) IsLimited() bool {
 	return l.Limit > 0 && (l.Skip+l.Limit*l.Page) >= 0
 }
 

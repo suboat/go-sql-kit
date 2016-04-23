@@ -8,7 +8,7 @@ import (
 type SQLLimit struct {
 	RuleLimit
 	LimitRoot
-	LimitValueSet
+	LimitValues
 }
 
 func NewSQLLimit() *SQLLimit {
@@ -31,7 +31,7 @@ func (s *SQLLimit) String() string {
 			}
 		}
 	}
-	if s.LimitValueSet.IsLimited() {
+	if s.LimitValues.IsLimited() {
 		return s.ValueString()
 	}
 	return ""

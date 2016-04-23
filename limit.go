@@ -54,42 +54,29 @@ func (l *LimitValueSet) IsLimited() bool {
 }
 
 type IRuleLimit interface {
-	SetDefaultLimit(int) IRuleLimit
 	SetMaxLimit(int) IRuleLimit
 	GetLimit(int) int
 }
 
 type RuleLimit struct {
-	defaultLimit int
-	maxLimit     int
-}
-
-func (l *RuleLimit) SetDefaultLimit(lmt int) IRuleLimit {
-	if lmt >= 0 {
-		if lmt > l.maxLimit {
-			l.SetMaxLimit(lmt)
-		}
-		l.defaultLimit = lmt
-	}
-	return l
+	maxLimit int
 }
 
 func (l *RuleLimit) SetMaxLimit(lmt int) IRuleLimit {
 	if lmt >= 0 {
-		if lmt < l.defaultLimit {
-			l.SetDefaultLimit(lmt)
-		}
 		l.maxLimit = lmt
+	} else {
+		l.maxLimit = 0
 	}
 	return l
 }
 
 func (l *RuleLimit) GetLimit(lmt int) int {
-	if lmt >= 1 {
-		if lmt > l.maxLimit {
-			return l.maxLimit
-		}
-		return lmt
+	if lmt <= 0 {
+		return 0
+	} else if l.maxLimit <= 0 {
+	} else if lmt > l.maxLimit {
+		return l.maxLimit
 	}
-	return l.defaultLimit
+	return lmt
 }

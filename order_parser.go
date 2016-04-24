@@ -3,38 +3,37 @@ package gosql
 import "encoding/json"
 
 func (o *OrderRoot) ParseJSONString(str string) error {
-	var strs []string
-	if err := json.Unmarshal([]byte(str), &strs); err != nil {
+	var m map[string]interface{}
+	if err := json.Unmarshal([]byte(str), &m); err != nil {
 		return err
 	}
-	return o.Parse(strs)
+	return o.Parse(m)
 }
 
-func (o *OrderRoot) Parse(strs []string) error {
-	if strs == nil || len(strs) == 0 {
-		o.Value = []IOrder{}
+func (o *OrderRoot) Parse(m map[string]interface{}) error {
+	if m == nil || len(m) == 0 {
 		return nil
 	}
-	o.Value = make([]IOrder, 0, len(strs))
-	for _, s := range strs {
-		if len(s) == 0 {
-			continue
+	o.Values = make([]IOrder, 0, len(m))
+	for k, v := range m {
+		if v == nil {
+		} else if IsOrderKey(k) {
+			value := &OrderValue{Key: k}
+			if err := value.Parse(v); err == nil {
+				o.Values = append(o.Values, value)
+			}
 		}
-		var v OrderValue
-		switch s[:1] {
-		case OrderKeyASC:
-			v.ASC = true
-			v.Field = s[1:]
-		case OrderKeyDESC:
-			v.ASC = false
-			v.Field = s[1:]
-		default:
-			v.ASC = true
-			v.Field = s
-		}
-		if len(v.Field) != 0 {
-			o.Value = append(o.Value, &v)
-		}
+	}
+	return nil
+}
+
+func (o *OrderValue) Parse(obj interface{}) error {
+	if str, ok := obj.(string); !ok {
+		return ErrTypeString
+	} else if len(str) == 0 {
+		return ErrTypeString
+	} else {
+		o.Field = str
 	}
 	return nil
 }

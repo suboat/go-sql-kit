@@ -1,6 +1,6 @@
 # go-sql-kit
 
-# v0.6
+# v0.8
 
 PS.新版本文档即将来临
 
@@ -62,6 +62,8 @@ QueryKeyBetween        = "%bt"   // TODO: 暂时不支持
 #### 关键字
 
 ```golang
+OrderKey string = "%o"
+
 OrderKeyASC  string = "+" // 正序
 OrderKeyDESC        = "-" // 反序
 ```
@@ -70,7 +72,7 @@ OrderKeyDESC        = "-" // 反序
 
 #### 实例说明
 
-* JSON实例：["key1", "+key2", "+key3", "-key4", "-key5"]
+* JSON实例：{"%o":["key1", "+key2", "+key3", "-key4", "-key5"]}
 * 结果描述： 正序("key1", "key2", "key3")，反序("key4", "key5")
 * 正序：例如对字段"key1"正向排序，可写为"+key1"，也可以"key1"
 * 反序：例如对字段"key4"反向排序，需写为"-key4"
@@ -80,15 +82,18 @@ OrderKeyDESC        = "-" // 反序
 #### 关键字
 
 ```golang
-LimitKey string = "%" // 限制分隔符
+LimitKeyLimit string = "%l" // 数量限制
+LimitKeySkip         = "%s" // 位移数量
+LimitKeyPage         = "%p" // 页数，从0开始
 ```
 
-* 用法描述: limit%skip%page
-* 允许缺省值，如: limit%skip, limit%skip%, limit%%page, %%page, %%
+* 若使用其中任何关键字，"%l"都不能缺少，其他允许缺省值
+* 值必须为数字
+* (TODO: 后续计划可能允许缺省"%l"，允许字符串)
 
 #### 实例说明
 
-* JSON实例："5%3%2"
+* JSON实例：{"%l":5,"%s":3,"%p":2}
 * 结果描述1： 忽略最前面的13个值，返回最多5个值
 * 结果描述2： 忽略最前面的3个，并返回第3页的值，每页最多5个值
 

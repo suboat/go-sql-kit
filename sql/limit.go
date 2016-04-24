@@ -8,8 +8,7 @@ import (
 type SQLLimit struct {
 	RuleLimit
 	LimitRoot
-	limit int
-	skip  int
+	LimitValues
 }
 
 func NewSQLLimit() *SQLLimit {
@@ -17,30 +16,34 @@ func NewSQLLimit() *SQLLimit {
 }
 
 func (s *SQLLimit) String() string {
-	if s.Value == nil {
-	} else if v, ok := s.Value.(*LimitValue); ok {
-		return s.valueString(v)
+	if s.Values == nil || len(s.Values) == 0 {
+		return ""
 	}
-	return ""
-}
-
-func (s *SQLLimit) valueString(v *LimitValue) string {
-	if v == nil {
-	} else if v.Limit = s.Limit(v.Limit); v.IsLimited() {
-		s.limit = v.Limit
-		s.skip = v.Skip + v.Limit*v.Page
+	for _, iv := range s.Values {
+		if v, ok := iv.(*LimitValue); ok && v.IsLimited() {
+			switch v.Key {
+			case LimitKeyLimit:
+				s.Limit = s.GetLimit(v.Value)
+			case LimitKeySkip:
+				s.Skip = v.Value
+			case LimitKeyPage:
+				s.Page = v.Value
+			}
+		}
+	}
+	if s.LimitValues.IsLimited() {
 		return s.ValueString()
 	}
 	return ""
 }
 
 func (s *SQLLimit) ValueString() string {
-	if s.limit <= 0 {
+	if s.Limit <= 0 {
 		return ""
 	}
-	sql := fmt.Sprintf(`LIMIT %v`, s.limit)
-	if s.skip > 0 {
-		sql += fmt.Sprintf(` OFFSET %v`, s.skip)
+	sql := fmt.Sprintf(`LIMIT %v`, s.Limit)
+	if skip := s.Skip + s.Limit*s.Page; skip > 0 {
+		sql += fmt.Sprintf(` OFFSET %v`, skip)
 	}
 	return sql
 }
@@ -52,17 +55,9 @@ func (s *SQLLimit) JSONtoSQLString(str string) (string, error) {
 	return s.String(), nil
 }
 
-func (s *SQLLimit) SQLString(str string) (string, error) {
-	if err := s.Parse(str); err != nil {
+func (s *SQLLimit) SQLString(m map[string]interface{}) (string, error) {
+	if err := s.Parse(m); err != nil {
 		return "", err
 	}
 	return s.String(), nil
-}
-
-func (s *SQLLimit) GetLimit() int {
-	return s.limit
-}
-
-func (s *SQLLimit) GetSkip() int {
-	return s.skip
 }

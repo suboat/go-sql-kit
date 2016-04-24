@@ -14,26 +14,39 @@ func (o *OrderRoot) Parse(m map[string]interface{}) error {
 	if m == nil || len(m) == 0 {
 		return nil
 	}
-	o.Values = make([]IOrder, 0, len(m))
 	for k, v := range m {
 		if v == nil {
-		} else if IsOrderKey(k) {
-			value := &OrderValue{Key: k}
-			if err := value.Parse(v); err == nil {
-				o.Values = append(o.Values, value)
+		} else if !IsOrderKey(k) {
+		} else if strs, ok := v.([]interface{}); ok && len(strs) != 0 {
+			o.Values = make([]IOrder, 0, len(strs))
+			for _, str := range strs {
+				value := &OrderValue{}
+				if err := value.Parse(str); err == nil {
+					o.Values = append(o.Values, value)
+				}
 			}
 		}
 	}
 	return nil
 }
 
-func (o *OrderValue) Parse(obj interface{}) error {
-	if str, ok := obj.(string); !ok {
+func (o *OrderValue) Parse(v interface{}) error {
+	if str, ok := v.(string); !ok {
 		return ErrTypeString
 	} else if len(str) == 0 {
 		return ErrTypeString
 	} else {
-		o.Field = str
+		switch str[:1] {
+		case OrderKeyASC:
+			o.Key = OrderKeyASC
+			o.Field = str[1:]
+		case OrderKeyDESC:
+			o.Key = OrderKeyDESC
+			o.Field = str[1:]
+		default:
+			o.Key = OrderKeyASC
+			o.Field = str
+		}
 	}
 	return nil
 }

@@ -1,17 +1,21 @@
 package gosql
 
 const (
-	OrderKeyASC  string = "%asc"  // 正序
-	OrderKeyDESC        = "%desc" // 反序
+	OrderKey string = "%o"
 )
 
 func IsOrderKey(str string) bool {
 	switch str {
-	case OrderKeyASC, OrderKeyDESC:
+	case OrderKey:
 		return true
 	}
 	return false
 }
+
+const (
+	OrderKeyASC  string = "+" // 正序
+	OrderKeyDESC        = "-" // 反序
+)
 
 type IOrder interface {
 	IsASC() bool

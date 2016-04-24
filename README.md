@@ -2,8 +2,6 @@
 
 # v0.8
 
-PS.新版本文档即将来临
-
 ## This project is still in development :)
 
 ## Overview

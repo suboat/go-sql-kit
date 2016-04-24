@@ -2,6 +2,8 @@
 
 # v0.6
 
+PS.新版本文档即将来临
+
 ## This project is still in development :)
 
 ## Overview
@@ -19,7 +21,6 @@ go get -u github.com/suboat/go-sql-kit
 ## Documents
 
 当前规则均基于JSON格式
-PS.新版本文档即将来临
 
 1. Query(**条件筛选(WHERE)**)
 2. Order(**结果排序(ORDER BY)**)

@@ -1,9 +1,9 @@
 package gosql
 
 const (
-	LimitKeyLimit string = "%l"
-	LimitKeySkip         = "%s"
-	LimitKeyPage         = "%p"
+	LimitKeyLimit string = "%l" // 数量限制
+	LimitKeySkip         = "%s" // 位移数量
+	LimitKeyPage         = "%p" // 页数，从0开始
 )
 
 func IsLimitKey(str string) bool {

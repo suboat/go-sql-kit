@@ -18,7 +18,9 @@ func (o *OrderRoot) Parse(m map[string]interface{}) error {
 		if v == nil {
 		} else if !IsOrderKey(k) {
 		} else if strs, ok := v.([]interface{}); ok && len(strs) != 0 {
-			o.Values = make([]IOrder, 0, len(strs))
+			if o.Values == nil {
+				o.Values = make([]IOrder, 0, len(strs))
+			}
 			for _, str := range strs {
 				value := &OrderValue{}
 				if err := value.Parse(str); err == nil {

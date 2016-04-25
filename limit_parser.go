@@ -14,10 +14,12 @@ func (l *LimitRoot) Parse(m map[string]interface{}) error {
 	if m == nil || len(m) == 0 {
 		return nil
 	}
-	l.Values = make([]ILimit, 0, len(m))
 	for k, v := range m {
 		if v == nil {
 		} else if IsLimitKey(k) {
+			if l.Values == nil {
+				l.Values = make([]ILimit, 0, len(m))
+			}
 			value := &LimitValue{Key: k}
 			if err := value.Parse(v); err == nil {
 				l.Values = append(l.Values, value)

@@ -17,10 +17,12 @@ func (q *QueryRoot) Parse(m map[string]interface{}) error {
 	if m == nil || len(m) == 0 {
 		return nil
 	}
-	q.Values = make([]IQuery, 0, len(m))
 	for k, v := range m {
 		if v == nil {
 		} else if IsQueryKey(k) {
+			if q.Values == nil {
+				q.Values = make([]IQuery, 0, len(m))
+			}
 			elem := &QueryElem{anonymous: IsQueryAnonymousKey(k), Key: k}
 			if err := elem.Parse(v); err == nil {
 				q.Values = append(q.Values, elem)

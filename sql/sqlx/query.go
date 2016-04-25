@@ -49,16 +49,20 @@ func (s *SQLXQuery) ValueString(v *QueryValue) string {
 	return fmt.Sprintf("%v%v$%v", v.Field, opera, s.index)
 }
 
+func (s *SQLXQuery) GetValues() []interface{} {
+	return s.values
+}
+
 func (s *SQLXQuery) JSONtoSQLString(str string) (string, []interface{}, error) {
 	if err := s.ParseJSONString(str); err != nil {
 		return "", nil, err
 	}
-	return s.String(), s.values, nil
+	return s.String(), s.GetValues(), nil
 }
 
 func (s *SQLXQuery) SQLString(m map[string]interface{}) (string, []interface{}, error) {
 	if err := s.Parse(m); err != nil {
 		return "", nil, err
 	}
-	return s.String(), s.values, nil
+	return s.String(), s.GetValues(), nil
 }

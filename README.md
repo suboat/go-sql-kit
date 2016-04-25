@@ -1,6 +1,6 @@
 # go-sql-kit
 
-# v0.8
+# v0.9
 
 ## This project is still in development :)
 

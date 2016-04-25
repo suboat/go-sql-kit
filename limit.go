@@ -53,6 +53,10 @@ func (l *LimitValues) IsLimited() bool {
 	return l.Limit > 0 && (l.Skip+l.Limit*l.Page) >= 0
 }
 
+func (l *LimitValues) GetValues() (int, int, int) {
+	return l.Limit, l.Skip, l.Page
+}
+
 type IRuleLimit interface {
 	SetMaxLimit(int) IRuleLimit
 	GetLimit(int) int

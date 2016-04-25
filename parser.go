@@ -26,8 +26,9 @@ func (p *Parser) ParseJSONString(str string) error {
 	}
 	for _, obj := range objs {
 		if obj == nil {
-		} else if m, ok := obj.(map[string]interface{}); ok {
-			p.Parse(m)
+		} else if m, ok := obj.(map[string]interface{}); !ok {
+		} else if err := p.Parse(m); err != nil {
+			return err
 		}
 	}
 	return nil

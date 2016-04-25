@@ -12,14 +12,16 @@ type SQLXQuery struct {
 	values []interface{}
 }
 
-func NewSQLXQuery(size ...int) *SQLXQuery {
-	cnt := 10
-	if len(size) != 0 {
-		cnt = size[0]
-	}
-	s := &SQLXQuery{SQLQuery: *NewSQLQuery(), index: 1, values: make([]interface{}, 0, cnt)}
+func NewSQLXQuery() *SQLXQuery {
+	s := &SQLXQuery{SQLQuery: *NewSQLQuery(), index: 1, values: nil}
 	s.SetValueFormat(s.ValueString)
 	return s
+}
+
+func (s *SQLXQuery) String() string {
+	s.index = 1
+	s.values = nil
+	return s.SQLQuery.String()
 }
 
 func (s *SQLXQuery) ValueString(v *QueryValue) string {

@@ -18,4 +18,8 @@ func TestSQLXParser_ExampleJSON1(t *testing.T) {
 	t.Logf("%v", parser.GetQuery().GetValues())
 	t.Log(parser.GetOrder().String()) // 生成SQL语句
 	t.Log(parser.GetLimit().String()) // 生成SQL语句
+
+	sql, values := parser.JoinString(true, true, true) // 生成SQL语句
+	t.Log(sql)
+	t.Logf("%v", values)
 }

@@ -17,4 +17,6 @@ func TestSQLParser_ExampleJSON1(t *testing.T) {
 	t.Log(parser.GetQuery().String()) // 生成SQL语句
 	t.Log(parser.GetOrder().String()) // 生成SQL语句
 	t.Log(parser.GetLimit().String()) // 生成SQL语句
+
+	t.Log(parser.JoinString(true, true, true)) // 生成SQL语句
 }

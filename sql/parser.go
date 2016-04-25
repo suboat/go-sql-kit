@@ -1,6 +1,9 @@
 package gosql
 
-import . "github.com/suboat/go-sql-kit"
+import (
+	. "github.com/suboat/go-sql-kit"
+	"strings"
+)
 
 type SQLParser struct {
 	Parser
@@ -45,4 +48,27 @@ func (s *SQLParser) SetLimit(obj *SQLLimit) *SQLParser {
 
 func (s *SQLParser) GetLimit() *SQLLimit {
 	return s.limit
+}
+
+func (s *SQLParser) JoinString(query bool, order bool, limit bool) string {
+	set := make([]string, 0, 3)
+	if !query {
+	} else if str := s.GetQuery().String(); len(str) == 0 {
+		return ""
+	} else {
+		set = append(set, str)
+	}
+	if !order {
+	} else if str := s.GetOrder().String(); len(str) == 0 {
+		return ""
+	} else {
+		set = append(set, str)
+	}
+	if !limit {
+	} else if str := s.GetLimit().String(); len(str) == 0 {
+		return ""
+	} else {
+		set = append(set, str)
+	}
+	return strings.Join(set, " ")
 }

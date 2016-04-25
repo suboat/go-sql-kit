@@ -30,8 +30,8 @@ func (o *OrderRoot) Parse(m map[string]interface{}) error {
 	return nil
 }
 
-func (o *OrderValue) Parse(v interface{}) error {
-	if str, ok := v.(string); !ok {
+func (o *OrderValue) Parse(obj interface{}) error {
+	if str, ok := obj.(string); !ok {
 		return ErrTypeString
 	} else if len(str) == 0 {
 		return ErrTypeString

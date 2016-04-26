@@ -18,10 +18,10 @@ func NewSQLXQuery() *SQLXQuery {
 	return s
 }
 
-func (s *SQLXQuery) String() string {
+func (s *SQLXQuery) String(alias ...string) string {
 	s.index = 1
 	s.values = nil
-	return s.SQLQuery.String()
+	return s.SQLQuery.String(alias...)
 }
 
 func (s *SQLXQuery) ValueString(v *QueryValue) string {
@@ -55,16 +55,16 @@ func (s *SQLXQuery) GetValues() []interface{} {
 	return s.values
 }
 
-func (s *SQLXQuery) JSONtoSQLString(str string) (string, []interface{}, error) {
+func (s *SQLXQuery) JSONtoSQLString(str string, alias ...string) (string, []interface{}, error) {
 	if err := s.ParseJSONString(str); err != nil {
 		return "", nil, err
 	}
-	return s.String(), s.GetValues(), nil
+	return s.String(alias...), s.GetValues(), nil
 }
 
-func (s *SQLXQuery) SQLString(m map[string]interface{}) (string, []interface{}, error) {
+func (s *SQLXQuery) SQLString(m map[string]interface{}, alias ...string) (string, []interface{}, error) {
 	if err := s.Parse(m); err != nil {
 		return "", nil, err
 	}
-	return s.String(), s.GetValues(), nil
+	return s.String(alias...), s.GetValues(), nil
 }

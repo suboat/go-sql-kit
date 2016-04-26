@@ -48,7 +48,7 @@ QueryKeyBetween        = "%bt"   // TODO: 暂时不支持
 
 #### 实例说明
 
-1. JSON实例：
+> JSON实例：
 ```
 {"%and":{"%eq":{"key1":"A12"}}}
 或者简化为
@@ -56,13 +56,13 @@ QueryKeyBetween        = "%bt"   // TODO: 暂时不支持
 ```
 > 结果描述： `key1 == "A12"`
 
-2. JSON实例：
+> JSON实例：
 ```
 {"%and":{"%eq":{"key1":"A12","key2":"B23"},"%ne":{"key3":"C34","key4":"D45"}}}
 ```
 > 结果描述： `(key1 == "A12" && key2 == "B23") && (key3 != "C34" && key4 != "D45")`
 
-3. JSON实例：
+> JSON实例：
 ```
 {"%or":{"%lt":{"key1":12,"key2":23},"%gte":{"key3":34,"key4":45}}}
 ```

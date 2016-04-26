@@ -6,9 +6,9 @@
 
 ## Overview
 
-> * JSON格式
-> * 只需通过字符串(string)，即可实现**条件筛选(WHERE)**/**结果排序(ORDER BY)**/**结果分页(LIMIT)**等常用功能
-> * 提供快速便捷方案，对接开发前端(JS)模块(Developing...)，实现上述**筛选**/**排序**/**分页**功能
+* JSON格式
+* 只需通过字符串(string)，即可实现**条件筛选(WHERE)**/**结果排序(ORDER BY)**/**结果分页(LIMIT)**等常用功能
+* 提供快速便捷方案，对接开发前端(JS)模块(Developing...)，实现上述**筛选**/**排序**/**分页**功能
 
 ## Usage
 
@@ -18,11 +18,12 @@ go get -u github.com/suboat/go-sql-kit
 
 ## Documents
 
-> 当前规则均基于JSON格式
-> 1. Query(**条件筛选(WHERE)**)
-> 2. Order(**结果排序(ORDER BY)**)
-> 3. Limit(**结果分页(LIMIT)**)
-> 4. Rule
+* 当前规则均基于JSON格式
+
+1. Query(**条件筛选(WHERE)**)
+2. Order(**结果排序(ORDER BY)**)
+3. Limit(**结果分页(LIMIT)**)
+4. Rule
 
 ### 1. Query (`./query.go`)
 

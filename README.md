@@ -49,7 +49,7 @@ QueryKeyBetween        = "%bt"   // TODO: 暂时不支持
 #### 实例说明
 
 1. JSON实例：
-    ```JSON
+    ```json
     {"%and":{"%eq":{"key1":"A12"}}}
     或者简化为
     {"%eq":{"key1":"A12"}}
@@ -57,13 +57,13 @@ QueryKeyBetween        = "%bt"   // TODO: 暂时不支持
     结果描述： `key1 == "A12"`
 
 2. JSON实例：
-    ```JSON
+    ```json
     {"%and":{"%eq":{"key1":"A12","key2":"B23"},"%ne":{"key3":"C34","key4":"D45"}}}
     ```
     结果描述： `(key1 == "A12" && key2 == "B23") && (key3 != "C34" && key4 != "D45")`
 
 3. JSON实例：
-    ```JSON
+    ```json
     {"%or":{"%lt":{"key1":12,"key2":23},"%gte":{"key3":34,"key4":45}}}
     ```
     结果描述： `(key1 < 12 && key2 < 23) || (key3 >= 34 && key4 >= 45)`
@@ -84,12 +84,12 @@ OrderKeyDESC        = "-" // 反序
 #### 实例说明
 
 1. JSON实例：
-    ```JSON
+    ```json
     {"%o":["key1", "+key2", "+key3", "-key4", "-key5"]}
     ```
     结果描述： `正序("key1", "key2", "key3")，反序("key4", "key5")`
-    正序：例如对字段"key1"正向排序，可写为"+key1"，也可以"key1"
-    反序：例如对字段"key4"反向排序，需写为"-key4"
+    正序： 例如对字段"key1"正向排序，可写为"+key1"，也可以"key1"
+    反序： 例如对字段"key4"反向排序，需写为"-key4"
 
 ### 3. Limit (`./limit.go`)
 
@@ -107,8 +107,8 @@ LimitKeyPage         = "%p" // 页数，从0开始
 
 #### 实例说明
 
-JSON实例：
-    ```JSON
+1. JSON实例：
+    ```json
     {"%l":5,"%s":3,"%p":2}
     ```
     结果描述1： `忽略最前面的13个值，返回最多5个值`

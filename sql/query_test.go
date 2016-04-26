@@ -15,9 +15,9 @@ func TestSQLQuery_ExampleJSON1(t *testing.T) {
 
 func TestSQLQuery_ExampleJSON2(t *testing.T) {
 	example := `{"%or":{"%lt":{"key1":12,"key2":23},"%gte":{"key3":34,"key4":45}}}`
-	order := NewSQLQuery()                     // 初始化
-	order.Allow("key1", "key3")                // 设置关键字过滤规则
-	sql, err := order.JSONtoSQLString(example) // 生成SQL语句
+	order := NewSQLQuery()                          // 初始化
+	order.Allow("key1", "key3")                     // 设置关键字过滤规则
+	sql, err := order.JSONtoSQLString(example, "a") // 生成SQL语句
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -35,9 +35,9 @@ func TestSQLQuery_Example1(t *testing.T) {
 			"t4": "444",
 		},
 	}
-	order := NewSQLQuery()               // 初始化
-	order.Allow("t1", "t3")              // 设置关键字过滤规则
-	sql, err := order.SQLString(example) // 生成SQL语句
+	order := NewSQLQuery()                    // 初始化
+	order.Allow("t1", "t3")                   // 设置关键字过滤规则
+	sql, err := order.SQLString(example, "b") // 生成SQL语句
 	if err != nil {
 		t.Fatal(err)
 	}

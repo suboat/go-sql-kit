@@ -88,7 +88,7 @@ OrderKeyDESC        = "-" // 反序
 
 * 实例1:
 `正序("key1", "key2", "key3")，反序("key4", "key5")`
->```json
+```json
 {"%o":["key1", "+key2", "+key3", "-key4", "-key5"]}
 ```
 

@@ -49,7 +49,7 @@ QueryKeyBetween        = "%bt"   // TODO: 暂时不支持
 #### 实例说明
 
 1. JSON实例：
-> ```json
+```json
 {"%and":{"%eq":{"key1":"A12"}}}
 或者简化为
 {"%eq":{"key1":"A12"}}

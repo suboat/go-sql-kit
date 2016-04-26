@@ -15,14 +15,14 @@ func NewSQLOrder() *SQLOrder {
 	return new(SQLOrder)
 }
 
-func (s *SQLOrder) String() string {
+func (s *SQLOrder) String(alias ...string) string {
 	if s.Values == nil || len(s.Values) == 0 {
 		return ""
 	}
 	set := make([]string, 0, len(s.Values))
 	for _, iv := range s.Values {
 		if v, ok := iv.(*OrderValue); ok {
-			if str := s.valueString(v); len(str) != 0 {
+			if str := s.valueString(v, alias...); len(str) != 0 {
 				set = append(set, str)
 			}
 		}
@@ -33,11 +33,14 @@ func (s *SQLOrder) String() string {
 	return "ORDER BY " + strings.Join(set, ", ")
 }
 
-func (s *SQLOrder) valueString(v *OrderValue) string {
+func (s *SQLOrder) valueString(v *OrderValue, alias ...string) string {
 	if v == nil {
 	} else if !s.IsAllowed(v.Field) {
 	} else {
 		v.Field = s.GetMapping(v.Field)
+		if len(alias) != 0 {
+			v.Field = fmt.Sprintf("%v.%v", alias[0], v.Field)
+		}
 		return s.ValueString(v)
 	}
 	return ""
@@ -50,16 +53,16 @@ func (s *SQLOrder) ValueString(v *OrderValue) string {
 	return fmt.Sprintf("%v DESC", v.Field)
 }
 
-func (s *SQLOrder) JSONtoSQLString(str string) (string, error) {
+func (s *SQLOrder) JSONtoSQLString(str string, alias ...string) (string, error) {
 	if err := s.ParseJSONString(str); err != nil {
 		return "", err
 	}
-	return s.String(), nil
+	return s.String(alias...), nil
 }
 
-func (s *SQLOrder) SQLString(m map[string]interface{}) (string, error) {
+func (s *SQLOrder) SQLString(m map[string]interface{}, alias ...string) (string, error) {
 	if err := s.Parse(m); err != nil {
 		return "", err
 	}
-	return s.String(), nil
+	return s.String(alias...), nil
 }

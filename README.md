@@ -21,15 +21,17 @@ go get -u github.com/suboat/go-sql-kit
 * 当前规则均基于JSON格式
 
 1. 独立模块
-    1. [Query](https://github.com/suboat/go-sql-kit#1-query-querygo)(**条件筛选(WHERE)**)
-    1. [Order](https://github.com/suboat/go-sql-kit#2-order-ordergo)(**结果排序(ORDER BY)**)
-    1. [Limit](https://github.com/suboat/go-sql-kit#3-limit-limitgo)(**结果分页(LIMIT)**)
-    1. [Rule](https://github.com/suboat/go-sql-kit#4-rule-rulego)
+    1. [Query](#query)(**条件筛选(WHERE)**)
+    1. [Order](#order)(**结果排序(ORDER BY)**)
+    1. [Limit](#limit)(**结果分页(LIMIT)**)
+    1. [Rule](#rule)
 1. 组合模块
-    1. Protocol(**组合格式**)
-    1. Demo
+    1. [Protocol](#protocol)(**组合格式**)
+    1. [Demo](#demo)
 
-### Query @[./query.go](https://github.com/suboat/go-sql-kit/blob/master/query.go)
+### Query
+
+[./query.go](https://github.com/suboat/go-sql-kit/blob/master/query.go)
 
 #### 关键字
 
@@ -73,7 +75,9 @@ QueryKeyBetween        = "%bt"   // TODO: 暂时不支持
 ```
 
 
-### Order @[./order.go](https://github.com/suboat/go-sql-kit/blob/master/order.go)
+### Order
+
+[./order.go](https://github.com/suboat/go-sql-kit/blob/master/order.go)
 
 #### 关键字
 
@@ -96,7 +100,9 @@ OrderKeyDESC        = "-" // 反序
 {"%o":["key1", "+key2", "+key3", "-key4", "-key5"]}
 ```
 
-### Limit @[./limit.go](https://github.com/suboat/go-sql-kit/blob/master/limit.go)
+### Limit
+
+[./limit.go](https://github.com/suboat/go-sql-kit/blob/master/limit.go)
 
 #### 关键字
 
@@ -118,16 +124,18 @@ LimitKeyPage         = "%p" // 页数，从0开始
 {"%l":5,"%s":3,"%p":2}
 ```
 
-### Rule (`./rule.go`)
+### Rule
+
+[./rule.go](https://github.com/suboat/go-sql-kit/blob/master/rule.go)
 
 ### Protocol
 
 * 基于JSON格式
 * 格式: `[{Query},{Order},{Limit}]`
 * 参数: 
-    - [{Query}](https://github.com/suboat/go-sql-kit#1-query-querygo)
-    - [{Order}](https://github.com/suboat/go-sql-kit#2-order-ordergo)
-    - [{Limit}](https://github.com/suboat/go-sql-kit#3-limit-limitgo)
+    - [{Query}](#query)
+    - [{Order}](#order)
+    - [{Limit}](#limit)
 
 ### Demo
 

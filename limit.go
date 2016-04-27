@@ -50,7 +50,11 @@ type LimitValues struct {
 }
 
 func (l *LimitValues) IsLimited() bool {
-	return l.Limit > 0 && (l.Skip+l.Limit*l.Page) >= 0
+	return l.Limit > 0 && l.GetSkip() >= 0
+}
+
+func (l *LimitValues) GetSkip() int {
+	return l.Skip + l.Limit*l.Page
 }
 
 func (l *LimitValues) GetValues() (int, int, int) {

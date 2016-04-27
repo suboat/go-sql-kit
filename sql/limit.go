@@ -42,7 +42,7 @@ func (s *SQLLimit) ValueString() string {
 		return ""
 	}
 	sql := fmt.Sprintf(`LIMIT %v`, s.Limit)
-	if skip := s.Skip + s.Limit*s.Page; skip > 0 {
+	if skip := s.GetSkip(); skip > 0 {
 		sql += fmt.Sprintf(` OFFSET %v`, skip)
 	}
 	return sql

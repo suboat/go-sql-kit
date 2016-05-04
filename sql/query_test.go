@@ -135,6 +135,35 @@ func TestSQLQuery_Example4(t *testing.T) {
 	}
 	t.Log(sql)
 }
+func TestSQLQuery_Example5(t *testing.T) {
+	example := map[string]interface{}{
+		"%and": map[string]interface{}{
+			"%eq": map[string]interface{}{
+				"t1": "111",
+				"t2": 222,
+			},
+			"%bt": map[string]interface{}{
+				"t3": []interface{}{
+					111,
+					222,
+				},
+			},
+			"%nbt": map[string]interface{}{
+				"t4": []interface{}{
+					"333",
+					"444",
+				},
+			},
+		},
+	}
+	order := NewSQLQuery()
+	order.Allow("t1", "t2", "t3", "t4").Allow("%bt", "%nbt")
+	sql, err := order.SQLString(example)
+	if err != nil {
+		t.Fatal(err)
+	}
+	t.Log(sql)
+}
 
 func TestSQLQuery_ErrorExample1(t *testing.T) {
 	example := map[string]interface{}{

@@ -135,22 +135,23 @@ func TestSQLQuery_Example4(t *testing.T) {
 	}
 	t.Log(sql)
 }
+
 func TestSQLQuery_Example5(t *testing.T) {
 	example := map[string]interface{}{
 		"%and": map[string]interface{}{
 			"%eq": map[string]interface{}{
 				"t1": "111",
-				"t2": 222,
+				"t2": 122,
 			},
 			"%bt": map[string]interface{}{
 				"t3": []interface{}{
-					111,
-					222,
+					311,
+					322,
 				},
 			},
 			"%nbt": map[string]interface{}{
 				"t4": []interface{}{
-					"333",
+					"433",
 					"444",
 				},
 			},

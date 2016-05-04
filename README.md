@@ -1,6 +1,6 @@
 # go-sql-kit
 
-# v0.9.1
+# v0.9.2
 
 ## This project is still in development :)
 
@@ -36,18 +36,19 @@ go get -u github.com/suboat/go-sql-kit
 #### 关键字
 
 ```golang
-QueryKeyAnd string = "%and" // 与
-QueryKeyOr         = "%or"  // 或
+QueryKeyAnd        string = "%and"  // 与
+QueryKeyOr                = "%or"   // 或
 
-QueryKeyEq      string = "%eq"   // 等于
-QueryKeyNe             = "%ne"   // 不等于
-QueryKeyLt             = "%lt"   // 小于
-QueryKeyLte            = "%lte"  // 小于等于
-QueryKeyGt             = "%gt"   // 大于
-QueryKeyGte            = "%gte"  // 大于等于
-QueryKeyLike           = "%like" // 模糊搜索
-QueryKeyIn             = "%in"   // TODO: 暂时不支持
-QueryKeyBetween        = "%bt"   // TODO: 暂时不支持
+QueryKeyEq         string = "%eq"   // 等于
+QueryKeyNe                = "%ne"   // 不等于
+QueryKeyLt                = "%lt"   // 小于
+QueryKeyLte               = "%lte"  // 小于等于
+QueryKeyGt                = "%gt"   // 大于
+QueryKeyGte               = "%gte"  // 大于等于
+QueryKeyLike              = "%like" // 模糊搜索
+QueryKeyIn                = "%in"   // TODO: 暂时不支持
+QueryKeyBetween           = "%bt"   // 在...之间
+QueryKeyNotBetween        = "%nbt"  // 不在...之间
 ```
 
 * 关键字"%and"和"%or"需继续包含关键字

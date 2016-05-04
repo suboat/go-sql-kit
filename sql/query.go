@@ -119,6 +119,30 @@ func (s *SQLQuery) ValueString(v *QueryValue) string {
 		opera = ">="
 	case QueryKeyLike:
 		return fmt.Sprintf("%v LIKE '%%%v%%'", v.Field, v.Value)
+	case QueryKeyBetween:
+		if vs, ok := v.Value.([]interface{}); ok {
+			if vs == nil || len(vs) < 2 {
+				return ""
+			}
+			switch vs[0].(type) {
+			case int, int8, int16, int32, int64, float32, float64:
+				return fmt.Sprintf("%v BETWEEN %v AND %v", v.Field, vs[0], vs[1])
+			default:
+				return fmt.Sprintf("%v BETWEEN '%v' AND '%v'", v.Field, vs[0], vs[1])
+			}
+		}
+	case QueryKeyNotBetween:
+		if vs, ok := v.Value.([]interface{}); ok {
+			if vs == nil || len(vs) < 2 {
+				return ""
+			}
+			switch vs[0].(type) {
+			case int, int8, int16, int32, int64, float32, float64:
+				return fmt.Sprintf("%v NOT BETWEEN %v AND %v", v.Field, vs[0], vs[1])
+			default:
+				return fmt.Sprintf("%v NOT BETWEEN '%v' AND '%v'", v.Field, vs[0], vs[1])
+			}
+		}
 	default:
 		return ""
 	}

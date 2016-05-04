@@ -38,7 +38,9 @@ func (q *QueryElem) Parse(obj interface{}) error {
 	} else if m == nil || len(m) == 0 {
 		return ErrTypeMap
 	} else {
-		q.Values = make([]IQuery, 0, len(m))
+		if q.Values == nil {
+			q.Values = make([]IQuery, 0, len(m))
+		}
 		for k, v := range m {
 			if v == nil {
 			} else if IsQueryKey(k) {
@@ -84,6 +86,8 @@ func (q *QueryValue) Parse(obj interface{}) error {
 	case float64:
 		q.Value = v
 	case string:
+		q.Value = v
+	case []interface{}:
 		q.Value = v
 	default:
 		return ErrTypeString

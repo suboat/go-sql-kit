@@ -6,15 +6,16 @@ const (
 )
 
 const (
-	QueryKeyEq      string = "%eq"   // 等于
-	QueryKeyNe             = "%ne"   // 不等于
-	QueryKeyLt             = "%lt"   // 小于
-	QueryKeyLte            = "%lte"  // 小于等于
-	QueryKeyGt             = "%gt"   // 大于
-	QueryKeyGte            = "%gte"  // 大于等于
-	QueryKeyLike           = "%like" // 模糊搜索
-	QueryKeyIn             = "%in"   // TODO: 暂时不支持
-	QueryKeyBetween        = "%bt"   // TODO: 暂时不支持
+	QueryKeyEq         string = "%eq"   // 等于
+	QueryKeyNe                = "%ne"   // 不等于
+	QueryKeyLt                = "%lt"   // 小于
+	QueryKeyLte               = "%lte"  // 小于等于
+	QueryKeyGt                = "%gt"   // 大于
+	QueryKeyGte               = "%gte"  // 大于等于
+	QueryKeyLike              = "%like" // 模糊搜索
+	QueryKeyIn                = "%in"   // TODO: 暂时不支持
+	QueryKeyBetween           = "%bt"
+	QueryKeyNotBetween        = "%nbt"
 )
 
 func IsQueryKey(str string) bool {
@@ -34,6 +35,8 @@ func IsQueryAnonymousKey(str string) bool {
 	case QueryKeyGt, QueryKeyGte:
 		return true
 	case QueryKeyLike:
+		return true
+	case QueryKeyBetween, QueryKeyNotBetween:
 		return true
 	}
 	return false

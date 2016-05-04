@@ -41,6 +41,23 @@ func (s *SQLXQuery) ValueString(v *QueryValue) string {
 		opera = ">="
 	case QueryKeyLike:
 		return fmt.Sprintf("%v LIKE '%%%v%%'", v.Field, v.Value)
+	case QueryKeyBetween, QueryKeyNotBetween:
+		if vs, ok := v.Value.([]interface{}); ok {
+			if vs == nil || len(vs) < 2 {
+				return ""
+			}
+			defer func() {
+				s.index++
+				s.values = append(s.values, vs[0])
+				s.index++
+				s.values = append(s.values, vs[1])
+			}()
+			if v.Key == QueryKeyBetween {
+				return fmt.Sprintf("%v BETWEEN $%v AND $%v", v.Field, s.index, s.index+1)
+			} else {
+				return fmt.Sprintf("%v NOT BETWEEN $%v AND $%v", v.Field, s.index, s.index+1)
+			}
+		}
 	default:
 		return ""
 	}

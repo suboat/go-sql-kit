@@ -91,8 +91,7 @@ func (s *SQLQuery) elemString(elem *QueryElem, alias ...string) string {
 func (s *SQLQuery) valueString(v *QueryValue, alias ...string) string {
 	if v == nil {
 	} else if !s.IsAllowed(v.Field) {
-	} else {
-		v.Field = s.GetMapping(v.Field)
+	} else if v.Field = s.GetMapping(v.Field); len(v.Field) != 0 {
 		if len(alias) != 0 {
 			v.Field = fmt.Sprintf("%v.%v", alias[0], v.Field)
 		}

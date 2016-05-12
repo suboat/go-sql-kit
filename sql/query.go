@@ -73,7 +73,12 @@ func (s *SQLQuery) elemString(elem *QueryElem, alias ...string) string {
 	if len(set) == 0 {
 		return ""
 	} else if elem.IsAnonymous() {
-		return strings.Join(set, " AND ")
+		if len(set) == 1 {
+			return set[0]
+		} else if elem.RelKey == QueryKeyOr {
+			return fmt.Sprintf("(%v)", strings.Join(set, " OR "))
+		}
+		return fmt.Sprintf("(%v)", strings.Join(set, " AND "))
 	} else {
 		switch elem.Key {
 		case QueryKeyAnd:

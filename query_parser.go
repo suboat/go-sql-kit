@@ -24,6 +24,11 @@ func (q *QueryRoot) Parse(m map[string]interface{}) error {
 				q.Values = make([]IQuery, 0, len(m))
 			}
 			elem := &QueryElem{anonymous: IsQueryAnonymousKey(k), Key: k}
+			if elem.IsAnonymous() {
+				elem.RelKey = QueryKeyAnd
+			} else {
+				elem.RelKey = k
+			}
 			if err := elem.Parse(v); err == nil {
 				q.Values = append(q.Values, elem)
 			}
@@ -46,6 +51,11 @@ func (q *QueryElem) Parse(obj interface{}) error {
 			} else if IsQueryKey(k) {
 				if !q.IsAnonymous() {
 					elem := &QueryElem{anonymous: IsQueryAnonymousKey(k), Key: k}
+					if elem.IsAnonymous() {
+						elem.RelKey = q.RelKey
+					} else {
+						elem.RelKey = k
+					}
 					if err := elem.Parse(v); err == nil {
 						q.Values = append(q.Values, elem)
 					}

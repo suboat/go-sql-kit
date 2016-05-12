@@ -56,6 +56,7 @@ func (q *QueryRoot) IsAnonymous() bool {
 
 type QueryElem struct {
 	anonymous bool
+	RelKey    string
 	Key       string
 	Values    []IQuery
 }

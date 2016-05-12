@@ -78,9 +78,11 @@ func TestSQLQuery_Example3(t *testing.T) {
 				"t4": "444",
 			},
 			"%or": map[string]interface{}{
-				"%lt": map[string]interface{}{
-					"t11": 1111,
-					"t12": "1222",
+				"%and": map[string]interface{}{
+					"%lt": map[string]interface{}{
+						"t11": 1111,
+						"t12": "1222",
+					},
 				},
 				"%gte": map[string]interface{}{
 					"t13": 1333,
@@ -90,7 +92,7 @@ func TestSQLQuery_Example3(t *testing.T) {
 		},
 	}
 	order := NewSQLQuery()
-	order.Allow("t1", "t2", "t3", "t12", "t13")
+	order.Allow("t1", "t2", "t3", "t11", "t12", "t13", "t14")
 	sql, err := order.SQLString(example)
 	if err != nil {
 		t.Fatal(err)

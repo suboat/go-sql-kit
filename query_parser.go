@@ -97,6 +97,8 @@ func (q *QueryValue) Parse(obj interface{}) error {
 		q.Value = v
 	case string:
 		q.Value = v
+	case bool:
+		q.Value = v
 	case []interface{}:
 		q.Value = v
 	default:

@@ -1,6 +1,7 @@
 package gosql
 
 import (
+	"bytes"
 	"fmt"
 	. "github.com/suboat/go-sql-kit"
 	"strings"
@@ -123,6 +124,29 @@ func (s *SQLQuery) ValueString(v *QueryValue) string {
 		opera = ">="
 	case QueryKeyLike:
 		return fmt.Sprintf("%v LIKE '%%%v%%'", v.Field, v.Value)
+	case QueryKeyIn:
+		if vs, ok := v.Value.([]interface{}); ok {
+			if vs == nil || len(vs) == 0 {
+				return ""
+			}
+			var sb bytes.Buffer
+			sb.WriteString(fmt.Sprintf("%v IN (", v.Field))
+			l := len(vs)
+			for i, vi := range vs {
+				switch vi.(type) {
+				case int, int8, int16, int32, int64, float32, float64:
+					sb.WriteString(fmt.Sprintf("%v", vi))
+				default:
+					sb.WriteString(fmt.Sprintf("'%v'", vi))
+				}
+				if i+1 < l {
+					sb.WriteString(", ")
+				}
+			}
+			sb.WriteString(")")
+			return sb.String()
+		}
+		return ""
 	case QueryKeyBetween:
 		if vs, ok := v.Value.([]interface{}); ok {
 			if vs == nil || len(vs) < 2 {
@@ -135,6 +159,7 @@ func (s *SQLQuery) ValueString(v *QueryValue) string {
 				return fmt.Sprintf("%v BETWEEN '%v' AND '%v'", v.Field, vs[0], vs[1])
 			}
 		}
+		return ""
 	case QueryKeyNotBetween:
 		if vs, ok := v.Value.([]interface{}); ok {
 			if vs == nil || len(vs) < 2 {
@@ -147,6 +172,7 @@ func (s *SQLQuery) ValueString(v *QueryValue) string {
 				return fmt.Sprintf("%v NOT BETWEEN '%v' AND '%v'", v.Field, vs[0], vs[1])
 			}
 		}
+		return ""
 	default:
 		return ""
 	}

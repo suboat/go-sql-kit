@@ -163,10 +163,16 @@ func TestSQLXQuery_Example5(t *testing.T) {
 					"444",
 				},
 			},
+			"%in": map[string]interface{}{
+				"t5": []interface{}{
+					511,
+					"522",
+				},
+			},
 		},
 	}
 	order := NewSQLXQuery()
-	order.Allow("t1", "t2", "t3", "t4").Allow("%bt", "%nbt")
+	order.Allow("t1", "t2", "t3", "t4", "t5").Allow("%bt", "%nbt", "%in")
 	sql, values, err := order.SQLString(example)
 	if err != nil {
 		t.Fatal(err)

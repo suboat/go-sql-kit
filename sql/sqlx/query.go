@@ -1,6 +1,7 @@
 package gosql
 
 import (
+	"bytes"
 	"fmt"
 	. "github.com/suboat/go-sql-kit"
 	. "github.com/suboat/go-sql-kit/sql"
@@ -41,6 +42,26 @@ func (s *SQLXQuery) ValueString(v *QueryValue) string {
 		opera = ">="
 	case QueryKeyLike:
 		return fmt.Sprintf("%v LIKE '%%%v%%'", v.Field, v.Value)
+	case QueryKeyIn:
+		if vs, ok := v.Value.([]interface{}); ok {
+			if vs == nil || len(vs) == 0 {
+				return ""
+			}
+			var sb bytes.Buffer
+			sb.WriteString(fmt.Sprintf("%v IN (", v.Field))
+			l := len(vs)
+			for i, vi := range vs {
+				sb.WriteString(fmt.Sprintf("$%v", s.index))
+				s.index++
+				s.values = append(s.values, vi)
+				if i+1 < l {
+					sb.WriteString(", ")
+				}
+			}
+			sb.WriteString(")")
+			return sb.String()
+		}
+		return ""
 	case QueryKeyBetween, QueryKeyNotBetween:
 		if vs, ok := v.Value.([]interface{}); ok {
 			if vs == nil || len(vs) < 2 {

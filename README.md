@@ -46,7 +46,7 @@ QueryKeyLte               = "%lte"  // 小于等于
 QueryKeyGt                = "%gt"   // 大于
 QueryKeyGte               = "%gte"  // 大于等于
 QueryKeyLike              = "%like" // 模糊搜索
-QueryKeyIn                = "%in"   // TODO: 暂时不支持
+QueryKeyIn                = "%in"   // 在...之中
 QueryKeyBetween           = "%bt"   // 在...之间
 QueryKeyNotBetween        = "%nbt"  // 不在...之间
 ```

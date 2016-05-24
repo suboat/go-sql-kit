@@ -24,6 +24,7 @@ func (s *SQLQuery) AllowCommonKey() *SQLQuery {
 		QueryKeyEq, QueryKeyNe,
 		QueryKeyLt, QueryKeyLte,
 		QueryKeyGt, QueryKeyGte,
+		QueryKeyIn, QueryKeyBetween, QueryKeyNotBetween,
 	)
 	return s
 }

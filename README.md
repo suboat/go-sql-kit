@@ -2,8 +2,6 @@
 
 # v0.9.3
 
-## This project is still in development :)
-
 ## Overview
 
 * JSON格式

@@ -1,6 +1,6 @@
 # go-sql-kit
 
-# v0.9.2
+# v0.9.3
 
 ## This project is still in development :)
 
@@ -75,6 +75,11 @@ QueryKeyNotBetween        = "%nbt"  // 不在...之间
 {"%or":{"%lt":{"key1":12,"key2":23},"%gte":{"key3":34,"key4":45}}}
 ```
 
+* 实例4:
+`key1 == "11" && key2 = "12" && (key3 >= 31 && key3 <= 32) && !(key4 <= 43 && key4 >= 44) && (key5 == 51 || key5 == 52)`
+```json
+{"%and":{"%eq":{"key1":"11","key2":12},"%bt":{"key3":[31,32]},"%nbt":{"key4":[43,44]},"%in":{"key5":[51,52]}}}
+```
 
 ### Order
 

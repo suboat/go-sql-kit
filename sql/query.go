@@ -99,6 +99,11 @@ func (s *SQLQuery) valueString(v *QueryValue, alias ...string) string {
 	if v == nil {
 	} else if !s.IsAllowed(v.Field) {
 	} else if v.Field = s.GetMapping(v.Field); len(v.Field) != 0 {
+		if f, ok := s.GetMappingFunc(v.Field); ok {
+			if v.Field, v.Value, ok = f(v.Field, v.Value); !ok {
+				return ""
+			}
+		}
 		if len(alias) != 0 {
 			v.Field = fmt.Sprintf("%v.%v", alias[0], v.Field)
 		}

@@ -212,7 +212,13 @@ func TestSQLQuery_ErrorExample1(t *testing.T) {
 		},
 	}
 	order := NewSQLQuery()
-	order.Allow("t1", "t2", "t3", "t12", "t13").Allow("%like")
+	order.Allow("t1", "t2", "t3", "t12", "t13", "t14").Allow("%like").
+		SetMappingFunc("t2", func(key string, value interface{}) (string, interface{}, bool) {
+			return "tt2", "2222", true
+		}).
+		SetMappingFunc("t3", func(key string, value interface{}) (string, interface{}, bool) {
+			return key, value, false
+		})
 	sql, err := order.SQLString(example)
 	if err != nil {
 		t.Fatal(err)

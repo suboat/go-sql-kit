@@ -6,11 +6,16 @@ type IRuleMapping interface {
 	IsAllowed(string) bool
 	SetMapping(string, string) IRuleMapping
 	GetMapping(string) string
+	SetMappingFunc(string, RuleMappingFunc) IRuleMapping
+	GetMappingFunc(string) (RuleMappingFunc, bool)
 }
 
+type RuleMappingFunc func(string, interface{}) (string, interface{}, bool)
+
 type RuleMapping struct {
-	allowKey map[string]bool
-	mappings map[string]string
+	allowKey     map[string]bool
+	mappings     map[string]string
+	mappingFuncs map[string]RuleMappingFunc
 }
 
 func (r *RuleMapping) rule() *RuleMapping {
@@ -19,6 +24,9 @@ func (r *RuleMapping) rule() *RuleMapping {
 	}
 	if r.mappings == nil {
 		r.mappings = make(map[string]string)
+	}
+	if r.mappingFuncs == nil {
+		r.mappingFuncs = make(map[string]RuleMappingFunc)
 	}
 	return r
 }
@@ -69,4 +77,19 @@ func (r *RuleMapping) GetMapping(value string) string {
 		return mapping
 	}
 	return value
+}
+
+func (r *RuleMapping) SetMappingFunc(value string, f RuleMappingFunc) IRuleMapping {
+	if len(value) != 0 && f != nil {
+		r.rule().mappingFuncs[value] = f
+	}
+	return r
+}
+
+func (r *RuleMapping) GetMappingFunc(value string) (RuleMappingFunc, bool) {
+	if len(value) == 0 {
+	} else if f, ok := r.rule().mappingFuncs[value]; ok && f != nil {
+		return f, true
+	}
+	return nil, false
 }

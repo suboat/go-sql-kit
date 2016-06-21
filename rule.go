@@ -8,6 +8,7 @@ type IRuleMapping interface {
 	GetMapping(string) string
 	SetMappingFunc(string, RuleMappingFunc) IRuleMapping
 	GetMappingFunc(string) (RuleMappingFunc, bool)
+	SetMappingValue(string, string, interface{}) IRuleMapping
 }
 
 type RuleMappingFunc func(string, interface{}) (string, interface{}, bool)
@@ -92,4 +93,10 @@ func (r *RuleMapping) GetMappingFunc(value string) (RuleMappingFunc, bool) {
 		return f, true
 	}
 	return nil, false
+}
+
+func (r *RuleMapping) SetMappingValue(value string, mapping string, v interface{}) IRuleMapping {
+	return r.SetMappingFunc(value, func(string, interface{}) (string, interface{}, bool) {
+		return mapping, v, true
+	})
 }

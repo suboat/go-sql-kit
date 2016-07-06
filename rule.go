@@ -9,14 +9,18 @@ type IRuleMapping interface {
 	SetMappingFunc(string, RuleMappingFunc) IRuleMapping
 	GetMappingFunc(string) (RuleMappingFunc, bool)
 	SetMappingValue(string, string, interface{}) IRuleMapping
+	SetRuleMappingResult(string, RuleMappingResult) IRuleMapping
+	GetRuleMappingResult(string) (RuleMappingResult, bool)
 }
 
 type RuleMappingFunc func(string, interface{}) (string, interface{}, bool)
+type RuleMappingResult func(string, interface{}, ...string) (interface{}, bool)
 
 type RuleMapping struct {
-	allowKey     map[string]bool
-	mappings     map[string]string
-	mappingFuncs map[string]RuleMappingFunc
+	allowKey       map[string]bool
+	mappings       map[string]string
+	mappingFuncs   map[string]RuleMappingFunc
+	mappingResults map[string]RuleMappingResult
 }
 
 func (r *RuleMapping) rule() *RuleMapping {
@@ -28,6 +32,9 @@ func (r *RuleMapping) rule() *RuleMapping {
 	}
 	if r.mappingFuncs == nil {
 		r.mappingFuncs = make(map[string]RuleMappingFunc)
+	}
+	if r.mappingResults == nil {
+		r.mappingResults = make(map[string]RuleMappingResult)
 	}
 	return r
 }
@@ -99,4 +106,19 @@ func (r *RuleMapping) SetMappingValue(value string, mapping string, v interface{
 	return r.SetMappingFunc(value, func(string, interface{}) (string, interface{}, bool) {
 		return mapping, v, true
 	})
+}
+
+func (r *RuleMapping) SetRuleMappingResult(value string, f RuleMappingResult) IRuleMapping {
+	if len(value) != 0 && f != nil {
+		r.rule().mappingResults[value] = f
+	}
+	return r
+}
+
+func (r *RuleMapping) GetRuleMappingResult(value string) (RuleMappingResult, bool) {
+	if len(value) == 0 {
+	} else if f, ok := r.rule().mappingResults[value]; ok && f != nil {
+		return f, true
+	}
+	return nil, false
 }

@@ -104,6 +104,13 @@ func (s *SQLQuery) valueString(v *QueryValue, alias ...string) string {
 				return ""
 			}
 		}
+		if f, ok := s.GetRuleMappingResult(v.Field); ok {
+			if result, ok := f(v.Field, v.Value, alias...); ok {
+				if str, ok := result.(string); ok {
+					return str
+				}
+			}
+		}
 		if len(alias) != 0 {
 			v.Field = fmt.Sprintf("%v.%v", alias[0], v.Field)
 		}

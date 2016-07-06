@@ -14,7 +14,7 @@ type IRuleMapping interface {
 }
 
 type RuleMappingFunc func(string, interface{}) (string, interface{}, bool)
-type RuleMappingResult func(string, interface{}, ...string) (interface{}, bool)
+type RuleMappingResult func(string, interface{}, string, ...string) (interface{}, bool)
 
 type RuleMapping struct {
 	allowKey       map[string]bool

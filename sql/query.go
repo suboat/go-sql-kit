@@ -105,7 +105,7 @@ func (s *SQLQuery) valueString(v *QueryValue, alias ...string) string {
 			}
 		}
 		if f, ok := s.GetRuleMappingResult(v.Field); ok {
-			if result, ok := f(v.Field, v.Value, alias...); ok {
+			if result, ok := f(v.Field, v.Value, v.Key, alias...); ok {
 				if str, ok := result.(string); ok {
 					return str
 				}

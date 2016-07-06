@@ -226,7 +226,7 @@ func TestSQLXQuery_ErrorExample1(t *testing.T) {
 		SetMappingFunc("t3", func(key string, value interface{}) (string, interface{}, bool) {
 			return key, value, false
 		}).
-		SetRuleMappingResult("t12", func(key string, value interface{}, alias ...string) (interface{}, bool) {
+		SetRuleMappingResult("t12", func(key string, value interface{}, method string, alias ...string) (interface{}, bool) {
 			if alias != nil && len(alias) != 0 {
 				return alias[0] + "t12>1222", true
 			}

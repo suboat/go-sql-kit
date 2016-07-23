@@ -81,6 +81,7 @@ func (mq *Meta) ParseData(key string) (interface{}, bool) {
 			mq.mux.RUnlock()
 			mq.mux.Lock()
 			mq.dict = make(map[string]interface{})
+			mq.unique = ""
 			for _, data := range mq.array {
 				mq.parse("", data)
 			}

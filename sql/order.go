@@ -38,15 +38,10 @@ func (s *SQLOrder) valueString(v *OrderValue, alias ...string) string {
 	} else if !s.IsAllowed(v.Field) {
 	} else if v.Field = s.GetMapping(v.Field); len(v.Field) != 0 {
 		if f, ok := s.GetRuleMappingResult(v.Field); ok {
-			if result, ok := f(v.Field, nil, v.Key, alias...); ok {
+			if result, ok := f(v.Field, v.IsASC(), v.Key, alias...); ok {
 				if str, ok := result.(string); ok {
 					return str
 				}
-			}
-		}
-		if f, ok := s.GetMappingFunc(v.Field); ok {
-			if v.Field, _, ok = f(v.Field, nil); !ok {
-				return ""
 			}
 		}
 		if len(alias) != 0 {

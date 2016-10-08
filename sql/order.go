@@ -37,6 +37,18 @@ func (s *SQLOrder) valueString(v *OrderValue, alias ...string) string {
 	if v == nil {
 	} else if !s.IsAllowed(v.Field) {
 	} else if v.Field = s.GetMapping(v.Field); len(v.Field) != 0 {
+		if f, ok := s.GetRuleMappingResult(v.Field); ok {
+			if result, ok := f(v.Field, nil, v.Key, alias...); ok {
+				if str, ok := result.(string); ok {
+					return str
+				}
+			}
+		}
+		if f, ok := s.GetMappingFunc(v.Field); ok {
+			if v.Field, _, ok = f(v.Field, nil); !ok {
+				return ""
+			}
+		}
 		if len(alias) != 0 {
 			v.Field = fmt.Sprintf("%v.%v", alias[0], v.Field)
 		}

@@ -19,6 +19,11 @@ func NewSQLQuery() *SQLQuery {
 	return new(SQLQuery).AllowCommonKey().SetValueFormat(nil)
 }
 
+func (s *SQLQuery) Reset() *SQLQuery {
+	s.RuleMapping.Reset()
+	return s.AllowCommonKey()
+}
+
 func (s *SQLQuery) AllowCommonKey() *SQLQuery {
 	s.Allow(QueryKeyAnd, QueryKeyOr,
 		QueryKeyEq, QueryKeyNe,

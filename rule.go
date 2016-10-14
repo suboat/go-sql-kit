@@ -1,6 +1,7 @@
 package gosql
 
 type IRuleMapping interface {
+	Reset() IRuleMapping
 	Allow(...string) IRuleMapping
 	Disallow(...string) IRuleMapping
 	IsAllowed(string) bool
@@ -39,13 +40,20 @@ func (r *RuleMapping) rule() *RuleMapping {
 	return r
 }
 
+func (r *RuleMapping) Reset() IRuleMapping {
+	r.allowKey = make(map[string]bool)
+	r.mappings = make(map[string]string)
+	r.mappingFuncs = make(map[string]RuleMappingFunc)
+	r.mappingResults = make(map[string]RuleMappingResult)
+	return r
+}
+
 func (r *RuleMapping) Allow(keys ...string) IRuleMapping {
 	if len(keys) != 0 {
 		for _, key := range keys {
-			if len(key) == 0 {
-				continue
+			if len(key) != 0 {
+				r.rule().allowKey[key] = true
 			}
-			r.rule().allowKey[key] = true
 		}
 	}
 	return r
@@ -54,10 +62,9 @@ func (r *RuleMapping) Allow(keys ...string) IRuleMapping {
 func (r *RuleMapping) Disallow(keys ...string) IRuleMapping {
 	if len(keys) != 0 {
 		for _, key := range keys {
-			if len(key) == 0 {
-				continue
+			if len(key) != 0 {
+				r.rule().allowKey[key] = false
 			}
-			r.rule().allowKey[key] = false
 		}
 	}
 	return r

@@ -14,6 +14,10 @@
 go get -u github.com/suboat/go-sql-kit
 ```
 
+## Reference
+
+sql-kit(https://github.com/axetroy/sql-kit)
+
 ## Documents
 
 * 当前规则均基于JSON格式
